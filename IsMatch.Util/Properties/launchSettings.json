@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IsMatch.Util": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\Code\\Cloud"
+    }
+  }
+}
