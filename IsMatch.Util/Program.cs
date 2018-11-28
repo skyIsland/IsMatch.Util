@@ -11,7 +11,7 @@ namespace IsMatch.Util
          */
         static void Main(string[] args)
         {
-            int totalLineCount = 0;
+            int totalLineCount = 0, DirectoryNo = 0;
             string directory;
             if (args.Length > 0)
             {
@@ -23,20 +23,26 @@ namespace IsMatch.Util
             }
 
             // tips
-            WriteLine("start process...");
+            WriteLine("start scan..." + directory);
+            Title = $"first directory: {directory}";
+            WriteLine("------------------------------------------------------------------------------------------------\n");
+            WriteLine($"NO\tCurrent Diretory");
 
             var sw = new System.Diagnostics.Stopwatch();
-            sw.Start();            
-            totalLineCount = DirectoryCountLines(directory);
+            sw.Start();           
+            totalLineCount = DirectoryCountLines(directory,ref DirectoryNo);
             sw.Stop();
 
+            WriteLine("\n------------------------------------------------------------------------------------------------");
             WriteLine("\ncompleted process...");
             WriteLine($"\nResult:{totalLineCount} Line,times:{sw.ElapsedMilliseconds}ms");
             ReadKey();
         }
 
-        static int DirectoryCountLines(string diretory)
+        static int DirectoryCountLines(string diretory,ref int DirectoryNo)
         {
+            DirectoryNo++;
+            WriteLine($"{DirectoryNo}\t{diretory}");
             int lineCount = 0;
 
             string[] filesInDirectory = Directory.GetFiles(diretory, "*.cs");
@@ -48,7 +54,7 @@ namespace IsMatch.Util
             string[] subDirectories = Directory.GetDirectories(diretory);
             foreach (string subDirectory in subDirectories)
             {
-                lineCount += DirectoryCountLines(subDirectory);
+                lineCount += DirectoryCountLines(subDirectory, ref DirectoryNo);
             }
             return lineCount;
         }
