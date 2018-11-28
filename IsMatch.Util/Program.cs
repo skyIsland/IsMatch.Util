@@ -48,6 +48,7 @@ namespace IsMatch.Util
             string[] filesInDirectory = Directory.GetFiles(diretory, "*.cs");
             foreach (string file in filesInDirectory)
             {
+                WriteSucLog($"\t   {file.Replace(diretory, "").TrimStart('\\')}");//\0
                 lineCount += CoutLines(file);
             }
 
@@ -78,6 +79,14 @@ namespace IsMatch.Util
                 }
             }
             return lineCount;
+        }
+
+        static void WriteSucLog(string msg)
+        {
+            ConsoleColor thatColor = ForegroundColor;
+            ForegroundColor = ConsoleColor.Red;
+            WriteLine(msg);
+            ForegroundColor = thatColor;
         }
     }
 }
