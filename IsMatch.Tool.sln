@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.ScanCodeLine", "IsMatch.ScanCodeLine\IsMatch.ScanCodeLine.csproj", "{7EAF9934-DB76-457C-ADB1-B90C08901AB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.CnblogSubscribe", "IsMatch.CnblogSubscribe\IsMatch.CnblogSubscribe.csproj", "{83DF4BEC-3CCD-45C8-A96B-9C0D972B35C5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.CnArticleSubscribe", "IsMatch.CnArticleSubscribe\IsMatch.CnArticleSubscribe.csproj", "{83DF4BEC-3CCD-45C8-A96B-9C0D972B35C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

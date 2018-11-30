@@ -1,9 +1,9 @@
 ﻿using MimeKit;
 using System.Collections.Generic;
-using IsMatch.CnblogSubscribe.Config;
+using IsMatch.CnArticleSubscribe.Config;
 using MailKit.Net.Smtp;
 
-namespace IsMatch.CnblogSubscribe.Helper
+namespace IsMatch.CnArticleSubscribe.Helper
 {
     /// <summary>
     /// send email

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace IsMatch.CnblogSubscribe.Config
+namespace IsMatch.CnArticleSubscribe.Config
 {
     public class MailConfig
     {

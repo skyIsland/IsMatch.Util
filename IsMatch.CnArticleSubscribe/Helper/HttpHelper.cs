@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IsMatch.CnblogSubscribe.Helper
+namespace IsMatch.CnArticleSubscribe.Helper
 {
     public class HttpHelper
     {
@@ -17,7 +17,7 @@ namespace IsMatch.CnblogSubscribe.Helper
         /// <param name="uri">爬虫URL地址</param>
         /// <param name="proxy">代理服务器</param>
         /// <returns>网页源代码</returns>
-        public string GetString(Uri uri, string proxy = null)
+        public static string GetString(Uri uri, string proxy = null)
         {
             var pageSource = string.Empty;
             try
