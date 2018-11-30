@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.106
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Util", "IsMatch.Util\IsMatch.Util.csproj", "{7EAF9934-DB76-457C-ADB1-B90C08901AB1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.ScanCodeLine", "IsMatch.ScanCodeLine\IsMatch.ScanCodeLine.csproj", "{7EAF9934-DB76-457C-ADB1-B90C08901AB1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "IsMatch.Util": {
+    "IsMatch.ScanCodeLine": {
       "commandName": "Project",
       "commandLineArgs": "D:\\Code\\Cloud"
     }

@@ -1,7 +1,7 @@
 ﻿using System;
 using static System.Console;
 using System.IO;
-namespace IsMatch.Util
+namespace IsMatch.ScanCodeLine
 {
     class Program
     {
