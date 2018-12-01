@@ -15,9 +15,11 @@ namespace IsMatch.CnArticleSubscribe.Helper
         /// 获取网页源代码
         /// </summary>
         /// <param name="uri">爬虫URL地址</param>
+        /// <param name="isGet">是否Get请求</param>
+        /// <param name="parame">parame</param>
         /// <param name="proxy">代理服务器</param>
         /// <returns>网页源代码</returns>
-        public static string GetString(Uri uri, string proxy = null)
+        public static string GetString(Uri uri, bool isGet = true, string parame = null, string proxy = null)
         {
             var pageSource = string.Empty;
             try
@@ -37,7 +39,8 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 // 定义gzip压缩页面支持
                 request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
 
-                // 定义文档类型及编码
+                // 定义文档类型及编码 设置与否并不影响博客园接收参数
+                //request.ContentType = string.IsNullOrEmpty(parame) ? "application/x-www-form-urlencoded" : "application/json; charset=UTF-8";
                 request.ContentType = "application/x-www-form-urlencoded";
 
                 // 禁止自动跳转
@@ -53,7 +56,21 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 request.KeepAlive = true;
 
                 // 定义请求方式为GET    
-                request.Method = "GET";
+                request.Method = isGet ? "GET" : "POST";
+
+                // 定义来源
+                request.Referer = uri.ToString();
+
+                // 加入参数
+                if (!string.IsNullOrEmpty(parame))
+                {
+                    byte[] byteData = Encoding.UTF8.GetBytes(parame);
+                    request.ContentLength = byteData.Length;
+                    using (Stream reqStream = request.GetRequestStream())
+                    {
+                        reqStream.Write(byteData, 0, byteData.Length);
+                    }
+                }
 
                 // 设置代理服务器IP，伪装请求地址
                 if (proxy != null) request.Proxy = new WebProxy(proxy);
