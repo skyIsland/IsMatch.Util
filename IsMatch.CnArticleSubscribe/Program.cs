@@ -11,7 +11,7 @@ using AngleSharp.Dom.Html;
 using AngleSharp.Parser.Html;
 using IsMatch.CnArticleSubscribe.Config;
 using IsMatch.CnArticleSubscribe.Helper;
-using IsMatch.CnblogSubscribe.Models;
+using IsMatch.CnArticleSubscribe.Models;
 using NewLife.Log;
 using Polly;
 using Polly.Retry;
@@ -141,7 +141,7 @@ namespace IsMatch.Cnarticlesubscribe
                     isGet = false;
                 }
 
-                string html = HttpHelper.GetString(new Uri(blogUrl), isGet,parame);
+                string html = HttpHelper.GetString(new Uri(blogUrl), isGet, parame);
 
                 HtmlParser parser = new HtmlParser();
                 IHtmlDocument doc = parser.Parse(html);
@@ -185,6 +185,7 @@ namespace IsMatch.Cnarticlesubscribe
                     // 组装博客对象
                     Article blog = new Article()
                     {
+                        No = ret.Count + 1,
                         Title = title,
                         Url = url,
                         Summary = summary,
@@ -225,6 +226,7 @@ namespace IsMatch.Cnarticlesubscribe
 
                 StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
                 List<Article> articles = GetListArticle();
+
                 // 去重
                 foreach (var artilce in articles)
                 {
@@ -234,7 +236,8 @@ namespace IsMatch.Cnarticlesubscribe
                     }
                     else
                     {
-                        sw.WriteLine($"标题：{artilce.Title}");
+                        sw.WriteLine($"序号：{artilce.No}");
+                        sw.WriteLine($"标题：<span style=\"font-weight:bold;\">{artilce.Title}</span>");
                         sw.WriteLine($"网址：{artilce.Url}");
                         sw.WriteLine($"摘要：{artilce.Summary}");
                         sw.WriteLine($"作者：{artilce.Author}");

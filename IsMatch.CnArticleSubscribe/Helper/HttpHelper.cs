@@ -12,7 +12,7 @@ namespace IsMatch.CnArticleSubscribe.Helper
     public class HttpHelper
     {
         /// <summary>
-        /// 获取网页源代码
+        /// 获取网页源代码(ContentTypet特殊处理)
         /// </summary>
         /// <param name="uri">爬虫URL地址</param>
         /// <param name="isGet">是否Get请求</param>
@@ -39,9 +39,9 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 // 定义gzip压缩页面支持
                 request.Headers.Add(HttpRequestHeader.AcceptEncoding, "gzip,deflate");
 
-                // 定义文档类型及编码 设置与否并不影响博客园接收参数
-                //request.ContentType = string.IsNullOrEmpty(parame) ? "application/x-www-form-urlencoded" : "application/json; charset=UTF-8";
-                request.ContentType = "application/x-www-form-urlencoded";
+                // 定义文档类型及编码 设置与否并不影响博客园接收参数 2018年12月2日00:07:06 设置与否真的影响博客园接收参数！
+                request.ContentType = string.IsNullOrEmpty(parame) ? "application/x-www-form-urlencoded" : "application/json; charset=UTF-8";
+                //request.ContentType = "application/x-www-form-urlencoded";
 
                 // 禁止自动跳转
                 request.AllowAutoRedirect = false;

@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace IsMatch.CnblogSubscribe.Models
+namespace IsMatch.CnArticleSubscribe.Models
 {
     public class Article
     {
+        /// <summary> 排序</summary>
+        public int No { get; set; }
+
         /// <summary> 标题</summary>
         public string Title { get; set; }
 
