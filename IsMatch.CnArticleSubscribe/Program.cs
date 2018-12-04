@@ -77,7 +77,7 @@ namespace IsMatch.Cnarticlesubscribe
             _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 30, 0);
 
             // 初始化抓取页数
-            _maxPageNo = 2;
+            _maxPageNo = 1;
 
             // 初始化邮件配置
             _mailConfig =
@@ -94,7 +94,7 @@ namespace IsMatch.Cnarticlesubscribe
                     var res = NewLife.Serialization.JsonHelper.ToJsonEntity<List<Article>>(data);
                     if (res != null)
                     {
-                        PreviousArticles.AddRange(res);
+                        PreviousArticles.AddRange(res);// todo:抓取一天之后PreviousArticles会占用多少内存
                     }
                 }
                 catch (Exception e)
@@ -117,7 +117,7 @@ namespace IsMatch.Cnarticlesubscribe
                     _retryThreeTimesPolicy.Execute(Work);
 
                     // 每五分钟执行一次
-                    Thread.Sleep(300000);
+                    Thread.Sleep(60 * 5 * 1000);
                 }
             }
             catch (Exception e)
@@ -185,14 +185,15 @@ namespace IsMatch.Cnarticlesubscribe
                     // 组装博客对象
                     Article blog = new Article()
                     {
-                        No = ret.Count + 1,
                         Title = title,
                         Url = url,
                         Summary = summary,
                         Author = author,
                         PublishTime = DateTime.Parse(publishTime),
                         CommentCount = commentCount,
-                        ViewCount = viewCount
+                        ViewCount = viewCount,
+                        InputTime = DateTime.Now,
+                        UpdateTime = DateTime.Now
                     };
                     ret.Add(blog);
 
@@ -220,54 +221,40 @@ namespace IsMatch.Cnarticlesubscribe
                 // 重复数量统计
                 int repeatCount = 0;
 
-                string blogFileName = $"cnarticles-{DateTime.Now:yyyy-MM-dd}.txt";
-                string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
-                FileStream fs = new FileStream(blogFilePath, FileMode.Append, FileAccess.Write);
-
-                StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
                 List<Article> articles = GetListArticle();
 
-                // 去重
+                // 重复则更新阅读量和评论量
                 foreach (var artilce in articles)
                 {
-                    if (PreviousArticles.Any(b => b.Url == artilce.Url))
+                    var hasArticleByUrl = PreviousArticles.Find(p => p.Url == artilce.Url);
+
+                    // 已存在该文章，则更新文章的评论量和阅读量
+                    if(hasArticleByUrl != null)
                     {
                         repeatCount++;
+                        hasArticleByUrl.CommentCount = artilce.CommentCount;
+                        hasArticleByUrl.ViewCount = artilce.ViewCount;
+                        hasArticleByUrl.UpdateTime = DateTime.Now;
                     }
                     else
                     {
-                        sw.WriteLine($"序号：{artilce.No}");
-                        sw.WriteLine($"标题：<span style=\"font-weight:bold;\">{artilce.Title}</span>");
-                        sw.WriteLine($"网址：{artilce.Url}");
-                        sw.WriteLine($"摘要：{artilce.Summary}");
-                        sw.WriteLine($"作者：{artilce.Author}");
-                        sw.WriteLine($"发布时间：{artilce.PublishTime:yyyy-MM-dd HH:mm}");
-                        sw.WriteLine($"评论量：{artilce.CommentCount}");
-                        sw.WriteLine($"阅读量：{artilce.ViewCount}");
-                        sw.WriteLine("--------------华丽的分割线---------------");
+                        // 反之则直接插入本次抓取记录
+                        PreviousArticles.Add(artilce);
                     }
-
                 }
-                sw.Close();
-                fs.Close();
-
-                // 清除上一次抓取数据记录
-                PreviousArticles.Clear();
-
-                // 加入本次抓取记录
-                PreviousArticles.AddRange(articles);
 
                 // 持久化本次抓取数据到文本 以便于异常退出恢复之后不出现重复数据
-                File.WriteAllText(_tmpFilePath, NewLife.Serialization.JsonHelper.ToJson(articles));
+                File.WriteAllText(_tmpFilePath, NewLife.Serialization.JsonHelper.ToJson(PreviousArticles));
 
                 _sw.Stop();
 
                 // 统计信息
                 NewLife.Log.XTrace.Log.Info($"获取数据成功,耗时:{_sw.ElapsedMilliseconds}ms,文章数量:{articles.Count},文章重复次数:{repeatCount},有效文章数量:{articles.Count - repeatCount}");
 
-                // 发送邮件
+                // 生成Txt和发送邮件
                 if ((DateTime.Now - _recordTime).TotalHours >= 24)
                 {
+                    BuildArticleTxt(PreviousArticles.OrderByDescending(p => p.CommentCount).ThenByDescending(p => p.ViewCount).ToList());
                     NewLife.Log.XTrace.Log.Info($"准备发送邮件，记录时间:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                     SendMail();
                     _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 30, 0);
@@ -290,7 +277,7 @@ namespace IsMatch.Cnarticlesubscribe
         /// </summary>
         static void SendMail()
         {
-            string blogFileName = $"cnarticles-{_recordTime:yyyy-MM-dd}.txt";
+            string blogFileName = $"CnBlogArticles-{DateTime.Now:yyyy-MM-dd}.txt";
             string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
 
             if (!File.Exists(blogFilePath))
@@ -300,25 +287,90 @@ namespace IsMatch.Cnarticlesubscribe
             }
 
             // 邮件正文
-            string mailContent = "";
-            FileStream mailFs = new FileStream(blogFilePath, FileMode.Open, FileAccess.Read);
-            StreamReader sr = new StreamReader(mailFs, Encoding.UTF8);
-            while (!sr.EndOfStream)
-            {
-                mailContent += sr.ReadLine() + "<br/>";
-            }
-            sr.Close();
-            mailFs.Close();
+            string mailContent = BuildEmailContent(PreviousArticles.OrderBy(p => p.CommentCount).ThenBy(p => p.ViewCount).ToList());
 
             // 附件内容
             string blogFileContent = File.ReadAllText(blogFilePath);
 
             // 发送邮件
-            MailHelper.SendMail(_mailConfig, _mailConfig.ReceiveList, "CnarticlesubscribeTool",
+            MailHelper.SendMail(_mailConfig, _mailConfig.ReceiveList, "CnArticleSubscribeTool",
                 $"傻大蒙，你好。博客园首页文章聚合【{_recordTime:yyyy-MM-dd}】", mailContent, Encoding.UTF8.GetBytes(blogFileContent),
                 blogFileName);
 
             NewLife.Log.XTrace.Log.Info($"{blogFileName},文件已发送。");
+        }
+
+        /// <summary>
+        /// 生成文章txt文件
+        /// </summary>
+        /// <param name="articleList"></param>
+        static void BuildArticleTxt(List<Article> articleList)
+        {
+            string blogFileName = $"CnBlogArticles-{DateTime.Now:yyyy-MM-dd}.txt";
+            string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
+
+            FileStream fs = new FileStream(blogFilePath, FileMode.Append, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs, Encoding.UTF8);
+
+            int i = 1;
+            foreach (var artilce in articleList)
+            {
+                sw.WriteLine($"序号：{i}");
+                sw.WriteLine($"标题：{artilce.Title}");
+                sw.WriteLine($"网址：{artilce.Url}");
+                sw.WriteLine($"摘要：{artilce.Summary}");
+                sw.WriteLine($"作者：{artilce.Author}");
+                sw.WriteLine($"发布时间：{artilce.PublishTime:yyyy-MM-dd HH:mm:ss}");
+                sw.WriteLine($"评论量：{artilce.CommentCount}");
+                sw.WriteLine($"阅读量：{artilce.ViewCount}");
+                sw.WriteLine($"抓取入库时间：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}");
+                sw.WriteLine($"抓取更新时间：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}");
+                sw.WriteLine("--------------华丽的分割线---------------");
+
+                i++;
+            }
+
+            sw.Close();
+            fs.Close();
+        }
+
+        /// <summary>
+        /// 生成邮件正文
+        /// </summary>
+        /// <param name="articleList"></param>
+        static string BuildEmailContent(List<Article> articleList)
+        {
+            int i = 1;
+            string emailContent = "";
+            foreach (var artilce in articleList)
+            {
+                emailContent += $"<span style=\"font-weight:bold;\">序号</span>：{i}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">标题</span>：{artilce.Title}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">网址</span>：{artilce.Url}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">摘要</span>：{artilce.Summary}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">作者</span>：{artilce.Author}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">发布时间</span>：{artilce.PublishTime:yyyy-MM-dd HH:mm:ss}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">评论量</span>：{artilce.CommentCount}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">阅读量</span>：{artilce.ViewCount}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">抓取入库时间</span>：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}";
+                emailContent += "<br>";
+                emailContent += $"<span style=\"font-weight:bold;\">抓取更新时间</span>：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}";
+                emailContent += "<br>";
+                emailContent += "<span style=\"font-weight:bold;color:red;\">--------------华丽的分割线---------------</span>";
+                emailContent += "<br>";
+
+                i++;
+            }
+
+            return emailContent;
         }
     }
 }
