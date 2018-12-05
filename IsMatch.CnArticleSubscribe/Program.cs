@@ -74,7 +74,7 @@ namespace IsMatch.Cnarticlesubscribe
             }
 
             // 初始化记录时间
-            _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 30, 0);
+            _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
 
             // 初始化抓取页数
             _maxPageNo = 1;
@@ -183,7 +183,7 @@ namespace IsMatch.Cnarticlesubscribe
 
 
                     // 组装博客对象
-                    Article blog = new Article()
+                    Article article = new Article()
                     {
                         Title = title,
                         Url = url,
@@ -195,7 +195,7 @@ namespace IsMatch.Cnarticlesubscribe
                         InputTime = DateTime.Now,
                         UpdateTime = DateTime.Now
                     };
-                    ret.Add(blog);
+                    ret.Add(article);
 
                     /*Console.WriteLine($"标题：{title}");
                     Console.WriteLine($"网址：{url}");
@@ -223,7 +223,7 @@ namespace IsMatch.Cnarticlesubscribe
 
                 List<Article> articles = GetListArticle();
 
-                // 重复则更新阅读量和评论量
+                // 入库操作
                 foreach (var artilce in articles)
                 {
                     var hasArticleByUrl = PreviousArticles.Find(p => p.Url == artilce.Url);
@@ -257,7 +257,7 @@ namespace IsMatch.Cnarticlesubscribe
                     BuildArticleTxt(PreviousArticles.OrderByDescending(p => p.CommentCount).ThenByDescending(p => p.ViewCount).ToList());
                     NewLife.Log.XTrace.Log.Info($"准备发送邮件，记录时间:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                     SendMail();
-                    _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 30, 0);
+                    _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
                     NewLife.Log.XTrace.Log.Info($"记录时间已更新:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                 }
 
@@ -287,16 +287,18 @@ namespace IsMatch.Cnarticlesubscribe
             }
 
             // 邮件正文
-            string mailContent = BuildEmailContent(PreviousArticles.OrderBy(p => p.CommentCount).ThenBy(p => p.ViewCount).ToList());
+            string mailContent = BuildEmailContent(PreviousArticles.OrderByDescending(p => p.CommentCount).ThenByDescending(p => p.ViewCount).ToList());
 
             // 附件内容
             string blogFileContent = File.ReadAllText(blogFilePath);
 
             // 发送邮件
-            MailHelper.SendMail(_mailConfig, _mailConfig.ReceiveList, "CnArticleSubscribeTool",
+            MailHelper.SendMail(_mailConfig, _mailConfig.ReceiveList, "博客园首页文章聚合",
                 $"傻大蒙，你好。博客园首页文章聚合【{_recordTime:yyyy-MM-dd}】", mailContent, Encoding.UTF8.GetBytes(blogFileContent),
                 blogFileName);
 
+            // 清空昨天的缓存
+            PreviousArticles.RemoveAll(p => true);
             NewLife.Log.XTrace.Log.Info($"{blogFileName},文件已发送。");
         }
 
@@ -306,7 +308,7 @@ namespace IsMatch.Cnarticlesubscribe
         /// <param name="articleList"></param>
         static void BuildArticleTxt(List<Article> articleList)
         {
-            string blogFileName = $"CnBlogArticles-{DateTime.Now:yyyy-MM-dd}.txt";
+            string blogFileName = $"博客园首页文章聚合-{DateTime.Now:yyyy-MM-dd}.txt";
             string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
 
             FileStream fs = new FileStream(blogFilePath, FileMode.Append, FileAccess.Write);
@@ -324,7 +326,7 @@ namespace IsMatch.Cnarticlesubscribe
                 sw.WriteLine($"评论量：{artilce.CommentCount}");
                 sw.WriteLine($"阅读量：{artilce.ViewCount}");
                 sw.WriteLine($"抓取入库时间：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}");
-                sw.WriteLine($"抓取更新时间：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}");
+                sw.WriteLine($"抓取更新时间：{artilce.UpdateTime:yyyy-MM-dd HH:mm:ss}");
                 sw.WriteLine("--------------华丽的分割线---------------");
 
                 i++;
@@ -362,7 +364,7 @@ namespace IsMatch.Cnarticlesubscribe
                 emailContent += "<br>";
                 emailContent += $"<span style=\"font-weight:bold;\">抓取入库时间</span>：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}";
                 emailContent += "<br>";
-                emailContent += $"<span style=\"font-weight:bold;\">抓取更新时间</span>：{artilce.InputTime:yyyy-MM-dd HH:mm:ss}";
+                emailContent += $"<span style=\"font-weight:bold;\">抓取更新时间</span>：{artilce.UpdateTime:yyyy-MM-dd HH:mm:ss}";
                 emailContent += "<br>";
                 emailContent += "<span style=\"font-weight:bold;color:red;\">--------------华丽的分割线---------------</span>";
                 emailContent += "<br>";
