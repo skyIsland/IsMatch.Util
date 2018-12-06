@@ -277,7 +277,7 @@ namespace IsMatch.Cnarticlesubscribe
         /// </summary>
         static void SendMail()
         {
-            string blogFileName = $"CnBlogArticles-{DateTime.Now:yyyy-MM-dd}.txt";
+            string blogFileName = $"博客园首页文章聚合-{DateTime.Now:yyyy-MM-dd}.txt";
             string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
 
             if (!File.Exists(blogFilePath))
