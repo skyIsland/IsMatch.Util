@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.ScanCodeLine", "IsM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.CnArticleSubscribe", "IsMatch.CnArticleSubscribe\IsMatch.CnArticleSubscribe.csproj", "{83DF4BEC-3CCD-45C8-A96B-9C0D972B35C5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Upload", "IsMatch.Upload\IsMatch.Upload.csproj", "{2FB9866C-E2CD-4BB1-9428-5D501044F0D1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Upload", "IsMatch.Upload\IsMatch.Upload.csproj", "{2FB9866C-E2CD-4BB1-9428-5D501044F0D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Test", "IsMatch.Test\IsMatch.Test.csproj", "{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Test", "IsMatch.Test\IsMatch.Test.csproj", "{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.NetworkSocket", "IsMatch.NetworkSocket\IsMatch.NetworkSocket.csproj", "{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Tesseract", "IsMatch.Tesseract\IsMatch.Tesseract.csproj", "{6B423688-2793-4CDC-8911-4D801E367C8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B423688-2793-4CDC-8911-4D801E367C8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B423688-2793-4CDC-8911-4D801E367C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B423688-2793-4CDC-8911-4D801E367C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B423688-2793-4CDC-8911-4D801E367C8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
