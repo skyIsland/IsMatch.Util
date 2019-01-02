@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Upload", "IsMatch.U
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Test", "IsMatch.Test\IsMatch.Test.csproj", "{C1E60E6E-51E6-4777-BE1F-0B0E5405D160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.NetworkSocket", "IsMatch.NetworkSocket\IsMatch.NetworkSocket.csproj", "{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.NetworkSocket", "IsMatch.NetworkSocket\IsMatch.NetworkSocket.csproj", "{FC69EE1C-4446-42DC-BFDD-B28F0AC9CF3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Tesseract", "IsMatch.Tesseract\IsMatch.Tesseract.csproj", "{6B423688-2793-4CDC-8911-4D801E367C8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Tesseract", "IsMatch.Tesseract\IsMatch.Tesseract.csproj", "{6B423688-2793-4CDC-8911-4D801E367C8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Spider", "IsMatch.Spider\IsMatch.Spider.csproj", "{6C5E0071-33D9-4C9C-8E78-D513EDDAEA1F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6B423688-2793-4CDC-8911-4D801E367C8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6B423688-2793-4CDC-8911-4D801E367C8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6B423688-2793-4CDC-8911-4D801E367C8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C5E0071-33D9-4C9C-8E78-D513EDDAEA1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C5E0071-33D9-4C9C-8E78-D513EDDAEA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C5E0071-33D9-4C9C-8E78-D513EDDAEA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C5E0071-33D9-4C9C-8E78-D513EDDAEA1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
