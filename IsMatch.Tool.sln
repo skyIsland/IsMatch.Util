@@ -19,6 +19,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IsMatch.Spider", "IsMatch.S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Blog", "IsMatch.Blog\IsMatch.Blog.csproj", "{E094A6B1-678D-41C6-A799-985F1258FC61}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IsMatch.BillManager", "IsMatch.BillManager", "{ED86CDB9-DF98-4E18-A083-4529868F532B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.Bill.WebApi", "IsMatch.Bill.WebApi\IsMatch.Bill.WebApi.csproj", "{A6BA16FE-DB97-4C44-A568-E338BD318CFB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,9 +61,16 @@ Global
 		{E094A6B1-678D-41C6-A799-985F1258FC61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E094A6B1-678D-41C6-A799-985F1258FC61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E094A6B1-678D-41C6-A799-985F1258FC61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A6BA16FE-DB97-4C44-A568-E338BD318CFB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6BA16FE-DB97-4C44-A568-E338BD318CFB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6BA16FE-DB97-4C44-A568-E338BD318CFB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6BA16FE-DB97-4C44-A568-E338BD318CFB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A6BA16FE-DB97-4C44-A568-E338BD318CFB} = {ED86CDB9-DF98-4E18-A083-4529868F532B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DE03511-D2E8-401E-9AE2-4C47BC962C89}
