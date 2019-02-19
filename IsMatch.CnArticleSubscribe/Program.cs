@@ -44,6 +44,7 @@ namespace IsMatch.Cnarticlesubscribe
 
             // start
             new Thread(WorkStart).Start();
+            //SendEmailTest();
             Console.ReadKey();
         }
 
@@ -373,6 +374,17 @@ namespace IsMatch.Cnarticlesubscribe
             }
 
             return emailContent;
+        }
+
+        static void SendEmailTest()
+        {
+            // 发送邮件
+            MailHelper.SendMail(_mailConfig, _mailConfig.ReceiveList, "Test",
+              "Test", "TestContent");
+
+            // 清空昨天的缓存
+            PreviousArticles.RemoveAll(p => true);
+            //NewLife.Log.XTrace.Log.Info($"{blogFileName},文件已发送。");
         }
     }
 }
