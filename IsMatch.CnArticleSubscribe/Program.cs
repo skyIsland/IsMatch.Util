@@ -60,8 +60,8 @@ namespace IsMatch.Cnarticlesubscribe
                     .Handle<Exception>()
                     .Retry(3, (ex, count) =>
                     {
-                        NewLife.Log.XTrace.Log.Error($"xcuted Failed! Retry {count}");
-                        NewLife.Log.XTrace.Log.Error($"Exeption from {ex.GetType().Name}");
+                        NewLife.Log.XTrace.Log.Error($"excuted Failed! Retry {count}");
+                        NewLife.Log.XTrace.Log.Error($"Exeption from {ex.GetType().Name}, message:{ex.Message}");
                     });
 
             // 获取应用程序所在目录
