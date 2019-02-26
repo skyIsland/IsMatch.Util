@@ -43,8 +43,15 @@ namespace IsMatch.Cnarticlesubscribe
             Init();
 
             // start
-            new Thread(WorkStart).Start();
-            //SendEmailTest();
+            if (args.Length > 0)
+            {
+                SendMail(args[0]);
+            }
+            else
+            {
+                new Thread(WorkStart).Start();
+            }
+
             Console.ReadKey();
         }
 
@@ -276,9 +283,14 @@ namespace IsMatch.Cnarticlesubscribe
         /// <summary>
         /// 发送邮件
         /// </summary>
-        static void SendMail()
+        /// <param name="blogFileName">指定文件名</param>
+        static void SendMail(string blogFileName = "")
         {
-            string blogFileName = $"博客园首页文章聚合-{DateTime.Now:yyyy-MM-dd}.txt";
+            if (string.IsNullOrWhiteSpace(blogFileName))
+            {
+                blogFileName = $"博客园首页文章聚合-{DateTime.Now:yyyy-MM-dd}.txt";
+            }
+
             string blogFilePath = Path.Combine(_baseDir, "articles", blogFileName);
 
             if (!File.Exists(blogFilePath))
