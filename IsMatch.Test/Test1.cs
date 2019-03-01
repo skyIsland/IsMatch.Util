@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using IsMatch.Upload;
 using Qiniu.Storage;
@@ -26,6 +28,23 @@ namespace IsMatch.Test
             var upload = new QiNiuUpload(config, ak, sk);
             var uploadResult = upload.FormUpload("0060lm7Tgy1fistv13d8zj30k00zkgne.jpg");
             Assert.Contains("hash", uploadResult);
+        }
+
+        [Fact]
+        public void NetworksocketTest()
+        {
+            // 启动
+            IsMatch.NetworkSocket.Startup.Main();
+
+            string url = "http://192.168.8.58:1212/Home/GetUsers";
+            string result;
+
+            using (var wc = new WebClient())
+            {
+                result = wc.DownloadString(url);
+            }
+
+            Assert.NotNull(result);
         }
     }
 }
