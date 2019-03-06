@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "IsMatch.Rename": {
+      "commandName": "Project"
+    }
+  }
+}
