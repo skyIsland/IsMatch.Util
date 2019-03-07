@@ -1,27 +1,41 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-
+using System.Threading.Tasks;
+using IsMatch.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace IsMatch.Blog.Controllers
 {
     public class BaseController : Controller
     {
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
-            base.OnActionExecuting(filterContext);
+            Prepare();
+            base.OnActionExecuting(context);
+        }
+
+        public override Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            Prepare();
+            return base.OnActionExecutionAsync(context, next);
         }
 
         public virtual void Prepare()
         {
-           
+            ViewBag.Position = "home";
+
+            ViewBag.Catalogs = Catalogs.FindAll().OrderBy( p => p.ID);
         }
 
-        public ActionResult NotFound()
+        /// <summary>
+        /// 友情提示页（待添加一个实体）
+        /// </summary>
+        /// <returns></returns>
+        public virtual IActionResult Prompt()
         {
-            return View();
+            return View("Error");
         }
     }
 }
