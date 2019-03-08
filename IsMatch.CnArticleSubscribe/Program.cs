@@ -23,7 +23,7 @@ namespace IsMatch.Cnarticlesubscribe
         private static string BlogDataUrl = "https://www.cnblogs.com";
         private static string BlogPageUrl = "https://www.cnblogs.com/mvc/AggSite/PostList.aspx"; 
         private static readonly Stopwatch _sw = new Stopwatch();
-        private static readonly List<Article> PreviousArticles = new List<Article>();
+        private static List<Article> PreviousArticles;
         private static MailConfig _mailConfig;
         private static string _baseDir;
         private static RetryPolicy _retryThreeTimesPolicy;
@@ -60,6 +60,7 @@ namespace IsMatch.Cnarticlesubscribe
         /// </summary>
         static void Init()
         {
+            PreviousArticles = new List<Article>();
 
             // 初始化重试器
             _retryThreeTimesPolicy =
