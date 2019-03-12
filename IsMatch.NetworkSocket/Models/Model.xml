@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Tables Version="9.9.6940.24706" NameSpace="IsMatch.Models" ConnName="Conn" Output="" BaseClass="Entity" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance" xs:schemaLocation="http://www.newlifex.com https://raw.githubusercontent.com/NewLifeX/X/master/XCode/ModelSchema.xsd" xmlns="http://www.newlifex.com/ModelSchema.xsd">
+  <Table Name="Bill" Description="账单" DbType="SqlServer" RenderGenEntity="true">
+    <Columns>
+      <Column Name="ID" DataType="Int32" Identity="True" PrimaryKey="True" Description="编号" />
+      <Column Name="Type" DataType="Int32" Description="变动类型 1收入 2支出" />
+      <Column Name="Money" DataType="Decimal" Master="True" Description="金额" />
+      <Column Name="Summary" DataType="String" Length="500" Nullable="False" Description="摘要" />
+      <Column Name="CreateUser" DataType="String" Description="创建者" />
+      <Column Name="CreateUserID" DataType="Int32" Description="创建者" />
+      <Column Name="CreateTime" DataType="DateTime" Description="创建时间" />
+      <Column Name="CreateIP" DataType="String" Description="创建地址" />
+      <Column Name="UpdateUser" DataType="String" Description="更新者" />
+      <Column Name="UpdateUserID" DataType="Int32" Description="更新者" />
+      <Column Name="UpdateTime" DataType="DateTime" Description="更新时间" />
+      <Column Name="UpdateIP" DataType="String" Description="更新地址" />
+    </Columns>
+  </Table>
+</Tables>
