@@ -1,6 +1,7 @@
 ﻿using System;
 using static System.Console;
 using System.IO;
+
 namespace IsMatch.ScanCodeLine
 {
     class Program
@@ -11,16 +12,8 @@ namespace IsMatch.ScanCodeLine
          */
         static void Main(string[] args)
         {
-            int totalLineCount = 0, DirectoryNo = 0;
-            string directory;
-            if (args.Length > 0)
-            {
-                directory = args[0];
-            }
-            else
-            {
-                directory = Directory.GetCurrentDirectory();
-            }
+            int totalLineCount = 0, directoryNo = 0;
+            var directory = args.Length > 0 ? args[0] : Directory.GetCurrentDirectory();
 
             // tips
             WriteLine("start scan..." + directory);
@@ -30,7 +23,7 @@ namespace IsMatch.ScanCodeLine
 
             var sw = new System.Diagnostics.Stopwatch();
             sw.Start();           
-            totalLineCount = DirectoryCountLines(directory,ref DirectoryNo);
+            totalLineCount = DirectoryCountLines(directory,ref directoryNo);
             sw.Stop();
 
             WriteLine("\n------------------------------------------------------------------------------------------------");
@@ -39,10 +32,10 @@ namespace IsMatch.ScanCodeLine
             ReadKey();
         }
 
-        static int DirectoryCountLines(string diretory,ref int DirectoryNo)
+        static int DirectoryCountLines(string diretory,ref int directoryNo)
         {
-            DirectoryNo++;
-            WriteLine($"{DirectoryNo}\t{diretory}");
+            directoryNo++;
+            WriteLine($"{directoryNo}\t{diretory}");
             int lineCount = 0;
 
             string[] filesInDirectory = Directory.GetFiles(diretory, "*.cs");
@@ -55,29 +48,36 @@ namespace IsMatch.ScanCodeLine
             string[] subDirectories = Directory.GetDirectories(diretory);
             foreach (string subDirectory in subDirectories)
             {
-                lineCount += DirectoryCountLines(subDirectory, ref DirectoryNo);
+                lineCount += DirectoryCountLines(subDirectory, ref directoryNo);
             }
             return lineCount;
         }
 
         static int CoutLines(string file)
         {
-            string line;
             int lineCount = 0;
-            using (FileStream fs = new FileStream(file, FileMode.Open))
+            try
             {
-                StreamReader reader = new StreamReader(fs);
-                line = reader.ReadLine();
-
-                while (line != null)
+                using (FileStream fs = new FileStream(file, FileMode.Open))
                 {
-                    if(line.Trim() != "")
+                    StreamReader reader = new StreamReader(fs);
+                    var line = reader.ReadLine();
+
+                    while (line != null)
                     {
-                        lineCount++;
+                        if (line.Trim() != "")
+                        {
+                            lineCount++;
+                        }
+                        line = reader.ReadLine();
                     }
-                    line = reader.ReadLine();
                 }
             }
+            catch (Exception ex)
+            {
+                WriteLine($"打开文件发生错误，原因:{ex.Message}\n");
+            }
+           
             return lineCount;
         }
 
