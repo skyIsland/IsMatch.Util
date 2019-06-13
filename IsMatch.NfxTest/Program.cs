@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace IsMatch.NfxTest
 {
@@ -12,10 +13,12 @@ namespace IsMatch.NfxTest
         {
             //Test1();
 
-            Test2();
+            //Test2();
+
+            Test3();
 
             Console.ReadKey();
-        }
+        }       
 
         private static void Test1()
         {
@@ -47,6 +50,32 @@ namespace IsMatch.NfxTest
             }
 
             Console.WriteLine($"新数组元素如下:{string.Join(",", intList)}");
+        }
+
+        private static void Test3()
+        {
+            string documentType = "<!DOCTYPE html>\n";
+
+            TagBuilder html = new TagBuilder("html");
+            TagBuilder header = new TagBuilder("head");
+            TagBuilder title = new TagBuilder("title");
+            TagBuilder body = new TagBuilder("body");
+
+            header.AppendInnerHtml(title.ToString());
+            body.AppendInnerHtml("<h3>Test</h3>");
+
+            html.AppendInnerHtml(header.ToString());
+            html.AppendInnerHtml(body.ToString());
+
+            Console.WriteLine(documentType + html.ToString());
+        }
+    }
+
+    public static class TagBuilderExtension
+    {
+        public static void AppendInnerHtml(this TagBuilder tag, string html)
+        {
+            tag.InnerHtml += $"\n{html}";
         }
     }
 }
