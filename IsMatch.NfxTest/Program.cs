@@ -15,7 +15,9 @@ namespace IsMatch.NfxTest
 
             //Test2();
 
-            Test3();
+            //Test3();
+
+            Test4();
 
             Console.ReadKey();
         }       
@@ -68,6 +70,20 @@ namespace IsMatch.NfxTest
             html.AppendInnerHtml(body.ToString());
 
             Console.WriteLine(documentType + html.ToString());
+        }
+
+        private static void Test4()
+        {
+            var obj1 = new GetHashCodeTest()
+            {
+                Id = 1,
+                Name = "Name1"
+            };
+
+            var obj2 = new GetHashCodeTest();
+            obj2 = obj1;
+
+            Console.WriteLine(obj1.Equals(obj2));
         }
     }
 
