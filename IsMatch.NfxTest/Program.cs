@@ -19,6 +19,20 @@ namespace IsMatch.NfxTest
         public string Guid { get; set; }
 
         public string Title { get; set; }
+
+        public static (string name, int id) GetList(List<MyClass1> classList)
+        {
+            var obj = classList.FirstOrDefault() ?? new MyClass1();
+            return (obj.Name, obj.Id);
+        }
+
+        public static void GetList()
+        {
+            var obj = ("1", 1, new MyClass1());
+            string i = obj.Item1;
+            int j = obj.Item2;
+            MyClass1 k = obj.Item3;
+        }
     }
 
     class Program
