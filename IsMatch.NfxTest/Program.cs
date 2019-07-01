@@ -47,7 +47,9 @@ namespace IsMatch.NfxTest
 
             //Test4();
 
-            Test5();
+            //Test5();
+
+            Test6();
 
             Console.ReadKey();
         }       
@@ -157,6 +159,17 @@ namespace IsMatch.NfxTest
             //    new MyClass2{ Guid = Guid.NewGuid().ToString(), Title = "张三3" },
             //    new MyClass2{ Guid = Guid.NewGuid().ToString(), Title = "张三4" },
             //};
+        }
+
+        private static void Test6()
+        {
+            MyClass c1 = new MyClass()
+            {
+                Id = 1,
+                StationName = "市二宫"
+            };
+
+            Console.WriteLine(c1.GetValueByPropName("StationName")); 
         }
     }
 
