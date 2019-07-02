@@ -49,7 +49,9 @@ namespace IsMatch.NfxTest
 
             //Test5();
 
-            Test6();
+            //Test6();
+
+            Test7();
 
             Console.ReadKey();
         }       
@@ -170,6 +172,12 @@ namespace IsMatch.NfxTest
             };
 
             Console.WriteLine(c1.GetValueByPropName("StationName")); 
+        }
+
+        private static void Test7()
+        {
+            var s = new StaticClass("市二宫");
+            Console.WriteLine(StaticClass.Result());
         }
     }
 
