@@ -26,9 +26,12 @@ namespace IsMatch.WordHelper
 
             try
             {
-                string targetPath = Path.Combine(Directory.GetCurrentDirectory(), "Template", "Template.docx");
+                string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Template", "Template.docx");
+                string destPath = Path.Combine(Directory.GetCurrentDirectory(), "Template",
+                Guid.NewGuid().ToString() + ".docx");
+                File.Copy(sourcePath, destPath);
 
-                Test1(targetPath);
+                Test1(destPath);
 
                 Console.WriteLine("OK...");
             }
@@ -53,10 +56,28 @@ namespace IsMatch.WordHelper
                 // 替换文字
                 var dic = new Dictionary<string, string>()
                 {
-                    ["ReplaceTxt"] = $"在 { DateTime.Now.ToLongDateString() } 替换的哟..."
+                    ["ReplaceTxt"] = $"在 { DateTime.Now.ToLongDateString() } 替换的哟...μg/m3μg/m3μg/m3μg/m3"
                 };
 
                 ReplaceContent(dic, wordApp);
+
+                #region
+                //μg/m³
+                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                wordApp.Selection.Find.Text = "μg/m³";
+                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+
+                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                wordApp.Selection.Find.Text = "μ";
+                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+
+                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                wordApp.Selection.Find.Text = "³";
+                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                #endregion
 
                 var table = wordDoc.Tables[1];
                 int rowIndex = 2;
@@ -71,6 +92,10 @@ namespace IsMatch.WordHelper
                     table.Cell(rowIndex, cellIndex++).Range.Text = item.Remark;
                 }
                 table.Cell(rowIndex, 1).Range.Rows.Delete();
+
+                
+
+                wordDoc.Save();
             }
             catch (Exception)
             {
