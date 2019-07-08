@@ -24,6 +24,7 @@ namespace IsMatch.WordHelper
 
             // 表格
 
+            // 图
             try
             {
                 string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Template", "Template.docx");
@@ -56,27 +57,63 @@ namespace IsMatch.WordHelper
                 // 替换文字
                 var dic = new Dictionary<string, string>()
                 {
-                    ["ReplaceTxt"] = $"在 { DateTime.Now.ToLongDateString() } 替换的哟...μg/m3μg/m3μg/m3μg/m3"
+                    ["ReplaceTxt"] = $"在 { DateTime.Now.ToLongDateString() } 替换的哟...μg/m3 μg/m3μg/m3μg/m3"
                 };
 
                 ReplaceContent(dic, wordApp);
 
+                //wordDoc.ActiveWindow.Visible = true;
+                //var r = wordDoc.Range();
+                //r.Font.Name = "华文行楷 常规";
+                //r.Select();
+                //wordDoc.Save();
+
                 #region
                 //μg/m³
-                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
-                wordApp.Selection.Find.Text = "μg/m³";
-                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
-                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                //wordApp.Selection.Find.Text = "μg/m³";
+                //wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                //wordApp.Selection.Find.Font.NameOther = "Times New Roman";
 
-                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
-                wordApp.Selection.Find.Text = "μ";
-                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
-                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                //wordApp.Selection.Find.Text = "μ";
+                //wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                //wordApp.Selection.Find.Font.NameOther = "Times New Roman";
 
-                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
-                wordApp.Selection.Find.Text = "³";
-                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
-                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                //wordApp.Selection.Find.Text = "³";
+                //wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                //wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                #endregion
+
+                #region
+                ////光标定位到文档开头
+                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                //wordApp.Selection.Find.ClearFormatting();
+                //wordApp.Selection.Find.Font.Bold = 0;
+                //wordApp.Selection.Find.Font.Italic = 0;
+                //wordApp.Selection.Find.Text = "μ";
+                //wordApp.Selection.Font.Name = "Times New Roman";
+                #endregion
+
+                #region 更改字体
+                ////光标定位到文档开头
+                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                //wordApp.Selection.Find.ClearFormatting();
+                //wordApp.Selection.Find.Font.Bold = 0;
+                //wordApp.Selection.Find.Font.Italic = 0;
+                //wordApp.Selection.Find.Text = "替换";
+                //var r = wordApp.Selection.Range;
+
+                //r.Font.Name = "华文琥珀 常规";
+                ////wordApp.Selection.Find.Font.Name = "华文琥珀 常规";
+
+                ////var r = wordDoc.Range();
+                //r.Select();
+                //wordDoc.Save();
+
+                //r.Font.Size = 20;
+                //r.Font.Name = "华文琥珀 常规";
                 #endregion
 
                 var table = wordDoc.Tables[1];
@@ -87,13 +124,16 @@ namespace IsMatch.WordHelper
                 {
                     int cellIndex = 1;
 
+                    table.Rows.Add(ref _missVal);
+
                     table.Cell(rowIndex, cellIndex++).Range.Text = item.Title;
                     table.Cell(rowIndex, cellIndex++).Range.Text = item.Content;
                     table.Cell(rowIndex, cellIndex++).Range.Text = item.Remark;
-                }
-                table.Cell(rowIndex, 1).Range.Rows.Delete();
 
-                
+                    rowIndex++;
+                }
+
+                table.Cell(rowIndex, 1).Range.Rows.Delete();
 
                 wordDoc.Save();
             }
@@ -136,12 +176,12 @@ namespace IsMatch.WordHelper
         {
             var list = new List<dynamic>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 1; i < 6; i++)
             {
                 dynamic o = new System.Dynamic.ExpandoObject();
-                o.Title = "" + i.ToString();
-                o.Content = "" + i.ToString();
-                o.Remark = "" + i.ToString();
+                o.Title = "标题" + i.ToString();
+                o.Content = "内容" + i.ToString();
+                o.Remark = "备注" + i.ToString();
 
                 list.Add(o);
             }
