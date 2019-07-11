@@ -51,7 +51,9 @@ namespace IsMatch.NfxTest
 
             //Test6();
 
-            Test7();
+            //Test7();
+
+            Test8();
 
             Console.ReadKey();
         }       
@@ -179,6 +181,75 @@ namespace IsMatch.NfxTest
             var s = new StaticClass("市二宫");
             Console.WriteLine(StaticClass.Result());
         }
+
+        /// <summary>
+        /// 计算两个时间所跨的半年
+        /// </summary>
+        private static void Test8()
+        {
+            DateTime start = DateTime.Parse("2018-06");
+            DateTime end = DateTime.Parse("2019-06");
+
+            var year = end.Year - start.Year;
+            var month = end.Month - start.Month;
+
+            Console.WriteLine(year * 2 + (month / 6) + 1);
+
+            Console.WriteLine(CalcDateTimeThroughHalfYear(start, end));
+        }
+
+        private static int CalcDateTimeThroughHalfYear(DateTime startMonth, DateTime endMonth)
+        {
+            int result = 0;
+            int year = (endMonth.Year - startMonth.Year) + 1;
+
+            for (int i = 0; i < year; i++)
+            {
+                if (i == 0)
+                {
+                    // 开始结束都在同一年则直接比较开始月和结束月
+                    if (year == 1)
+                    {
+                        if (startMonth.Month < 7 && endMonth.Month > 6)
+                        {
+                            result += 2;
+                        }
+                        else
+                        {
+                            result += 1;
+                        }
+                    }
+                    else// 反之则只比较开始月
+                    {
+                        if (startMonth.Month < 7)
+                        {
+                            result += 2;
+                        }
+                        else
+                        {
+                            result += 1;
+                        }
+                    }
+                }
+                else if (i == (year - 1))// 最后一项比较结束月
+                {
+                    if (endMonth.Month > 6)
+                    {
+                        result += 2;
+                    }
+                    else
+                    {
+                        result += 1;
+                    }
+                }
+                else
+                {
+                    result += 2;
+                }
+            }
+            return result;
+        }
+
     }
 
     public static class TagBuilderExtension
