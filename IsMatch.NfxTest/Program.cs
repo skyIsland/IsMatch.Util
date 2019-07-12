@@ -53,7 +53,9 @@ namespace IsMatch.NfxTest
 
             //Test7();
 
-            Test8();
+            //Test8();
+
+            Test9();
 
             Console.ReadKey();
         }       
@@ -248,6 +250,14 @@ namespace IsMatch.NfxTest
                 }
             }
             return result;
+        }
+
+        private static void Test9()
+        {
+            uint num = 5;
+
+            // 左移两位
+            Console.WriteLine(num << 2);
         }
 
     }
