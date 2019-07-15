@@ -360,6 +360,8 @@ namespace IsMatch.Cnarticlesubscribe
             string emailContent = "";
             foreach (var artilce in articleList)
             {
+                artilce.FilterHtml();
+
                 emailContent += $"<span style=\"font-weight:bold;\">序号</span>：{i}";
                 emailContent += "<br>";
                 emailContent += $"<span style=\"font-weight:bold;\">标题</span>：{artilce.Title}";

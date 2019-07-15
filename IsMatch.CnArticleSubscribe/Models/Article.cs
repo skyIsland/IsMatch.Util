@@ -30,5 +30,11 @@ namespace IsMatch.CnArticleSubscribe.Models
 
         /// <summary> 更新时间 </summary>
         public DateTime UpdateTime { get; set; }
+
+        public void FilterHtml()
+        {
+            this.Title = this.Title.Replace("<", "《").Replace(">","》");
+            this.Summary = this.Summary.Replace("<", "《").Replace(">", "》");
+        }
     }
 }
