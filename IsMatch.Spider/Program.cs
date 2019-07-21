@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IsMatch.Spider.Txt;
+using System;
 
 namespace IsMatch.Spider
 {
@@ -7,8 +8,11 @@ namespace IsMatch.Spider
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            //JinXuLiangSpilder();
-            DouBanSpider();
+            //JinXuLiangSpider();
+            //DouBanSpider();
+
+            BiQuGeSpider();
+
             Console.ReadKey();
         }
 
@@ -19,10 +23,15 @@ namespace IsMatch.Spider
             factory.DownloadAllImage();
         }
 
-        private static void JinXuLiangSpilder()
+        private static void JinXuLiangSpider()
         {
             var courseSource = new CourseSource();
             courseSource.Work();
+        }
+
+        private static void BiQuGeSpider()
+        {
+            new BiQuGe().Start();
         }
     }
 }
