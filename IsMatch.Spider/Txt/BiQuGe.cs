@@ -24,10 +24,14 @@ namespace IsMatch.Spider.Txt
         //}
         public static string ReplaceSpecial(string str)
         {
-            return str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
+            str =  str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
                     .Replace("https://www.ibiquge.net/最快更新！无广告！", "")
                     .Replace("章节错误,点此报送(免注册),", "")
                     .Replace("报送后维护人员会在两分钟内校正章节内容,请耐心等待。", "");
+
+            str = str.Replace("笔＆趣＆阁ｗww.ｂiｑuｇe.ｉnｆo", "");
+
+            return str;
         }
 
         /// <summary>
@@ -74,6 +78,9 @@ namespace IsMatch.Spider.Txt
 
             base._UrlStart = "https://www.ibiquge.net";
             base._Url = "https://www.ibiquge.net/39_39483/";
+
+            base._UrlStart = "https://www.biquge.info/32_32870/";
+            base._Url = "https://www.biquge.info/32_32870/";
 
             // 获取列表
             base.GetList("#list>dl>dd>a", (htmlCollect) =>

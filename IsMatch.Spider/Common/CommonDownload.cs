@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IsMatch.Spider.Common
@@ -78,9 +79,16 @@ namespace IsMatch.Spider.Common
                             var document = GetHtmlDocumet(_UrlStart + detailUrl.Value);
                             var detailHtml = document.QuerySelector(selectors);
 
-                            htmlCollection?.Invoke(detailHtml, detailUrl.Key);
+                            if (detailHtml != null)
+                            {
+                                htmlCollection?.Invoke(detailHtml, detailUrl.Key);
 
-                            WriteLog?.Invoke($"{detailUrl.Key}获取成功！");
+                                WriteLog?.Invoke($"{detailUrl.Key}获取成功！");                               
+                            }
+                            else
+                            {
+                                WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
+                            }
                         }
 
                         //foreach (var list in data)
