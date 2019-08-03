@@ -1,6 +1,7 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using IsMatch.Spider.Txt;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,9 +14,7 @@ namespace IsMatch.Spider.Common
 {
     public class CommonDownload
     {
-        public string _UrlStart { get; set; }
-
-        public string _Url { get; set; }
+        public Setting _Setting;
 
         public Dictionary<string, string> _ListUrl = new Dictionary<string, string>();
 
@@ -42,7 +41,7 @@ namespace IsMatch.Spider.Common
         /// <param name="htmlCollection"></param>
         public virtual void GetList(string selectors, Action<IHtmlCollection<IElement>> htmlCollection, Action<string> WriteLog = null)
         {
-            var document = GetHtmlDocumet(_Url);
+            var document = GetHtmlDocumet(_Setting.TxtIndexUrl);
             var ddList = document.QuerySelectorAll(selectors);
 
             htmlCollection?.Invoke(ddList);
@@ -76,7 +75,7 @@ namespace IsMatch.Spider.Common
                     {
                         foreach (var detailUrl in data)
                         {
-                            var document = GetHtmlDocumet(_UrlStart + detailUrl.Value);
+                            var document = GetHtmlDocumet(_Setting.UrlStart + detailUrl.Value);
                             var detailHtml = document.QuerySelector(selectors);
 
                             if (detailHtml != null)

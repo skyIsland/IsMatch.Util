@@ -1,5 +1,6 @@
 ﻿using IsMatch.Spider.Txt;
 using System;
+using System.IO;
 
 namespace IsMatch.Spider
 {
@@ -31,7 +32,32 @@ namespace IsMatch.Spider
 
         private static void BiQuGeSpider()
         {
-            new BiQuGe().Start();
+            // 读取配置
+
+            var setting =
+               NewLife.Serialization.JsonHelper.ToJsonEntity<Setting>(
+                   File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Txt", "Setting.json")));
+
+            new BiQuGe(setting).Start();
         }
     }
+
+    #region Common
+
+    public class CmdReader
+    {
+        public static string ReadLine(string tipText, Func<string, bool> validate = null)
+        {
+            var input = string.Empty;
+            while (string.IsNullOrWhiteSpace(input) || (validate != null && !validate(input)))
+            {
+                Console.WriteLine(tipText);
+                input = Console.ReadLine();
+            }
+            return input;
+        }
+    }
+
+    #endregion
+
 }

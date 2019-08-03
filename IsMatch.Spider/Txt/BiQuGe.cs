@@ -8,13 +8,25 @@ namespace IsMatch.Spider.Txt
 {
     public class BiQuGe : CommonDownload
     {
+        #region 构造
+
+        public BiQuGe(Setting setting)
+        {
+            if(setting == null)
+            {
+                setting = new Setting();
+            }
+
+            base._Setting = setting;
+        }
+
+        #endregion
+
+        #region 输出信息
 
         private Action<string> OutPutMsg = msg => NewLife.Log.XTrace.WriteLine(msg);
 
-        //public BiQuGe(string listUrl = "https://www.ibiquge.net/39_39483/")
-        //{
-        //    this._Url = listUrl;
-        //}
+        #endregion
 
         //// "#list>dl>dd>a"
 
@@ -22,9 +34,12 @@ namespace IsMatch.Spider.Txt
         //{
 
         //}
+
+        #region Override
+
         public static string ReplaceSpecial(string str)
         {
-            str =  str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
+            str = str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
                     .Replace("https://www.ibiquge.net/最快更新！无广告！", "")
                     .Replace("章节错误,点此报送(免注册),", "")
                     .Replace("报送后维护人员会在两分钟内校正章节内容,请耐心等待。", "");
@@ -72,18 +87,23 @@ namespace IsMatch.Spider.Txt
             _DetailContext = newDic;
         }
 
+
+        #endregion
+
+        #region Main Function
+
         public void Start()
         {
             NewLife.Log.XTrace.UseConsole();
 
-            base._UrlStart = "https://www.ibiquge.net";
-            base._Url = "https://www.ibiquge.net/39_39483/";
+            //base._UrlStart = "https://www.ibiquge.net";
+            //base._Url = "https://www.ibiquge.net/39_39483/";
 
-            base._UrlStart = "https://www.biquge.info/32_32870/";
-            base._Url = "https://www.biquge.info/32_32870/";
+            //base._UrlStart = "https://www.biquge.info/32_32870/";
+            //base._Url = "https://www.biquge.info/32_32870/";
 
             // 获取列表
-            base.GetList("#list>dl>dd>a", (htmlCollect) =>
+            base.GetList(base._Setting.ListRule, (htmlCollect) =>
             {
                 foreach (var dd in htmlCollect)
                 {
@@ -95,7 +115,7 @@ namespace IsMatch.Spider.Txt
             });
 
             // 获取详情
-            base.GetDetail("#content", (elemt, title) =>
+            base.GetDetail(base._Setting.DetailRule, (elemt, title) =>
             {
                 if (!base._DetailContext.ContainsKey(title))
                 {
@@ -108,5 +128,9 @@ namespace IsMatch.Spider.Txt
             // 输出文本文件
             base.OutPutTxt(OutPutMsg);
         }
+
+
+        #endregion
+
     }
 }
