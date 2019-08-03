@@ -13,5 +13,7 @@ namespace IsMatch.Spider.Txt
         public string ListRule { get; set; } = "#list>dl>dd>a";
 
         public string DetailRule { get; set; } = "#content";
+
+        public string CharCode { get; set; } = "UTF8";
     }
 }

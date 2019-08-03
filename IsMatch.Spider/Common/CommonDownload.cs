@@ -139,7 +139,8 @@ namespace IsMatch.Spider.Common
 
                 FriendlyDetail();
 
-                File.WriteAllText(_BaseDir + "/" + title + ".txt", string.Join("", _DetailContext.ToList().Select(p => p.Key + p.Value)));
+                File.WriteAllText(_BaseDir + "/" + title + ".txt", string.Join("", _DetailContext.ToList()
+                    .Select(p => FriendTitle(p.Key) + p.Value)));
 
                 WriteLog("文本文件输出完成!");
             }
@@ -152,6 +153,21 @@ namespace IsMatch.Spider.Common
         public virtual void FriendlyDetail()
         {
 
+        }
+
+        public string FriendTitle(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
+
+            if (str.ToInt(-1) > -1)
+            {
+                str = "第" + str + "章";
+            }
+
+            return str;
         }
     }
 }
