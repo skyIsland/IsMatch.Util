@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,7 +56,9 @@ namespace IsMatch.NfxTest
 
             //Test8();
 
-            Test9();
+            //Test9();
+
+            Test10();
 
             Console.ReadKey();
         }       
@@ -182,7 +185,7 @@ namespace IsMatch.NfxTest
         {
             var s = new StaticClass("市二宫");
             Console.WriteLine(StaticClass.Result());
-        }
+        }  
 
         /// <summary>
         /// 计算两个时间所跨的半年
@@ -258,6 +261,13 @@ namespace IsMatch.NfxTest
 
             // 左移两位
             Console.WriteLine(num << 2);
+        }
+
+        private static void Test10()
+        {
+            NumberFormatInfo nfi = new CultureInfo(CultureInfo.CurrentCulture.Name, false).NumberFormat;
+            nfi.PercentDecimalDigits = 1;
+            Console.WriteLine(string.Format(nfi,"{0:P}", 0.95665));
         }
 
     }
