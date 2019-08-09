@@ -1,20 +1,20 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using IsMatch.Spider.Txt;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IsMatch.Spider.Common
 {
     public class CommonDownload
     {
-        public string _UrlStart { get; set; }
-
-        public string _Url { get; set; }
+        public Setting _Setting;
 
         public Dictionary<string, string> _ListUrl = new Dictionary<string, string>();
 
@@ -41,7 +41,7 @@ namespace IsMatch.Spider.Common
         /// <param name="htmlCollection"></param>
         public virtual void GetList(string selectors, Action<IHtmlCollection<IElement>> htmlCollection, Action<string> WriteLog = null)
         {
-            var document = GetHtmlDocumet(_Url);
+            var document = GetHtmlDocumet(_Setting.TxtIndexUrl);
             var ddList = document.QuerySelectorAll(selectors);
 
             htmlCollection?.Invoke(ddList);
@@ -75,12 +75,19 @@ namespace IsMatch.Spider.Common
                     {
                         foreach (var detailUrl in data)
                         {
-                            var document = GetHtmlDocumet(_UrlStart + detailUrl.Value);
+                            var document = GetHtmlDocumet(_Setting.UrlStart + detailUrl.Value);
                             var detailHtml = document.QuerySelector(selectors);
 
-                            htmlCollection?.Invoke(detailHtml, detailUrl.Key);
+                            if (detailHtml != null)
+                            {
+                                htmlCollection?.Invoke(detailHtml, detailUrl.Key);
 
-                            WriteLog?.Invoke($"{detailUrl.Key}获取成功！");
+                                WriteLog?.Invoke($"{detailUrl.Key}获取成功！");                               
+                            }
+                            else
+                            {
+                                WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
+                            }
                         }
 
                         //foreach (var list in data)
@@ -132,7 +139,8 @@ namespace IsMatch.Spider.Common
 
                 FriendlyDetail();
 
-                File.WriteAllText(_BaseDir + "/" + title + ".txt", string.Join("", _DetailContext.ToList().Select(p => p.Key + p.Value)));
+                File.WriteAllText(_BaseDir + "/" + title + ".txt", string.Join("", _DetailContext.ToList()
+                    .Select(p => FriendTitle(p.Key) + p.Value)));
 
                 WriteLog("文本文件输出完成!");
             }
@@ -145,6 +153,21 @@ namespace IsMatch.Spider.Common
         public virtual void FriendlyDetail()
         {
 
+        }
+
+        public string FriendTitle(string str)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
+
+            if (str.ToInt(-1) > -1)
+            {
+                str = "第" + str + "章";
+            }
+
+            return str;
         }
     }
 }
