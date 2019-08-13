@@ -58,7 +58,9 @@ namespace IsMatch.NfxTest
 
             //Test9();
 
-            Test10();
+            //Test10();
+
+            Console.WriteLine(ExecuteFormula("1+1*7")); 
 
             Console.ReadKey();
         }       
@@ -268,6 +270,148 @@ namespace IsMatch.NfxTest
             NumberFormatInfo nfi = new CultureInfo(CultureInfo.CurrentCulture.Name, false).NumberFormat;
             nfi.PercentDecimalDigits = 1;
             Console.WriteLine(string.Format(nfi,"{0:P}", 0.95665));
+        }
+
+        public static double ExecuteFormula(string formula)
+        {
+            string S = ""; //后缀
+            char[] Operators = new char[formula.Length];
+            int Top = -1;
+            for (int i = 0; i < formula.Length; i++)
+            {
+                char C = formula[i];
+                switch (C)
+                {
+                    case ' ': //忽略空格
+                        break;
+                    case '+': //操作符
+                    case '-':
+                        while (Top >= 0) //栈不为空时
+                        {
+                            char c = Operators[Top--]; //pop Operator
+                            if (c == '(')
+                            {
+                                Operators[++Top] = c; //push Operator
+                                break;
+                            }
+                            else
+                            {
+                                S = S + c;
+                            }
+                        }
+                        Operators[++Top] = C; //push Operator
+                        S += " ";
+                        break;
+                    case '*': //忽略空格
+                    case '/':
+                        while (Top >= 0) //栈不为空时
+                        {
+                            char c = Operators[Top--]; //pop Operator
+                            if (c == '(')
+                            {
+                                Operators[++Top] = c; //push Operator
+                                break;
+                            }
+                            else
+                            {
+                                if (c == '+' || c == '-')
+                                {
+                                    Operators[++Top] = c; //push Operator
+                                    break;
+                                }
+                                else
+                                {
+                                    S = S + c;
+                                }
+                            }
+                        }
+                        Operators[++Top] = C; //push Operator
+                        S += " ";
+                        break;
+                    case '(':
+                        Operators[++Top] = C;
+                        S += " ";
+                        break;
+                    case ')':
+                        while (Top >= 0) //栈不为空时
+                        {
+                            char c = Operators[Top--]; //pop Operator
+                            if (c == '(')
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                S = S + c;
+                            }
+                        }
+                        S += " ";
+                        break;
+                    default:
+                        S = S + C;
+                        break;
+
+                }
+            }
+            while (Top >= 0)
+            {
+                S = S + Operators[Top--]; //pop Operator
+            }
+
+            System.Console.WriteLine("后缀" + S); //后缀
+
+            //后缀表达式计算
+            double[] Operands = new double[S.Length];
+            double x, y, v;
+            Top = -1;
+            string Operand = "";
+            for (int i = 0; i < S.Length; i++)
+            {
+                char c = S[i];
+                if ((c >= '0' && c <= '9') || c == '.')
+                {
+                    Operand += c;
+                }
+
+                if ((c == ' ' || i == S.Length - 1) && Operand != "") //Update
+                {
+                    Operands[++Top] = System.Convert.ToDouble(Operand); //push Operands
+                    Operand = "";
+                }
+
+                if (c == '+' || c == '-' || c == '*' || c == '/')
+                {
+                    if ((Operand != ""))
+                    {
+                        Operands[++Top] = System.Convert.ToDouble(Operand); //push Operands
+                        Operand = "";
+                    }
+                    y = Operands[Top--]; //pop 双目运算符的第二操作数 (后进先出)注意操作数顺序对除法的影响
+                    x = Operands[Top--]; //pop 双目运算符的第一操作数
+                    switch (c)
+                    {
+                        case '+':
+                            v = x + y;
+                            break;
+                        case '-':
+                            v = x - y;
+                            break;
+                        case '*':
+                            v = x * y;
+                            break;
+                        case '/':
+                            v = x / y; // 第一操作数 / 第二操作数 注意操作数顺序对除法的影响
+                            break;
+                        default:
+                            v = 0;
+                            break;
+                    }
+                    Operands[++Top] = v; //push 中间结果再次入栈
+                }
+            }
+            v = Operands[Top--]; //pop 最终结果
+
+            return v;
         }
 
     }
