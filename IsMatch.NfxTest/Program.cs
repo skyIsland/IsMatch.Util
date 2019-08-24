@@ -61,7 +61,16 @@ namespace IsMatch.NfxTest
 
             //Test10();
 
-            //Console.WriteLine(ExecuteFormula("1+1*7")); 
+            //Console.WriteLine(ExecuteFormula("1+1*7"));             
+
+            Console.WriteLine(GetTimePoint(new List<DateTime>(){
+                new DateTime(2019,8,1,16,0,0),
+                new DateTime(2019,8,1,10,0,0),
+                new DateTime(2019,8,1,11,0,0),
+                new DateTime(2019,8,1,12,0,0),
+                new DateTime(2019,8,1,14,0,0),
+                new DateTime(2019,8,1,15,0,0)
+            }));
 
             ArraySubject.TestControl();
 
@@ -415,6 +424,49 @@ namespace IsMatch.NfxTest
             v = Operands[Top--]; //pop 最终结果
 
             return v;
+        }
+
+        public static string GetTimePoint(List<DateTime> list)
+        {
+            list = list.OrderBy(p => p).ToList();
+
+            var result = new List<DateTime[]>();
+            if (list.Any())
+            {
+                DateTime[] dic = null;
+
+                // 比较当前时间和下一个时间是否相差1个小时
+                var currTime = list.First();
+                int i = 0;
+                foreach (var item in list)
+                {
+                    if (i == 0)
+                    {
+                        dic = new DateTime[2];
+                        dic[0] = currTime;
+                    }
+                    else if (item == list.Last())
+                    {
+                        dic[1] = item;
+                        result.Add(dic);
+                    }
+                    else
+                    {
+                        if(item != currTime)
+                        {
+                            dic[1] = currTime.AddHours(-1);
+                            result.Add(dic);
+
+                            // 重置条件
+                            currTime = list[i].AddHours(-1);
+                            i = -1;
+                        }
+                    }
+                    currTime = currTime.AddHours(1);
+                    i++;
+                }
+            }
+            return string.Join("\r\n", result.Select(p => string.Join("-", p.ToList().Select( o => o.ToString("yyyy年MM月dd日 HH:mm:ss")))));
         }
 
     }
