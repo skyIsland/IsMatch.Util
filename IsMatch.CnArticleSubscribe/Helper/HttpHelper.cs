@@ -83,23 +83,36 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 using (var response = (HttpWebResponse)request.GetResponse())
                 {
                     // gzip解压
-                    if (response.ContentEncoding.ToLower().Contains("gzip"))
+                    if (response.ContentEncoding != null)
                     {
-                        using (GZipStream stream = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
+                        if (response.ContentEncoding.ToLower().Contains("gzip"))
                         {
-                            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                            using (GZipStream stream = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
                             {
-                                pageSource = reader.ReadToEnd();
+                                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                                {
+                                    pageSource = reader.ReadToEnd();
+                                }
                             }
                         }
-                    }
-                    else if (response.ContentEncoding.ToLower().Contains("deflate"))// deflate解压
-                    {
-                        using (DeflateStream stream = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress))
+                        else if (response.ContentEncoding.ToLower().Contains("deflate"))// deflate解压
                         {
-                            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                            using (DeflateStream stream = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress))
                             {
-                                pageSource = reader.ReadToEnd();
+                                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                                {
+                                    pageSource = reader.ReadToEnd();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            using (Stream stream = response.GetResponseStream())//原始
+                            {
+                                using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                                {
+                                    pageSource = reader.ReadToEnd();
+                                }
                             }
                         }
                     }

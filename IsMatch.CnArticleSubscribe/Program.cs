@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,6 +14,7 @@ using IsMatch.CnArticleSubscribe.Config;
 using IsMatch.CnArticleSubscribe.Helper;
 using IsMatch.CnArticleSubscribe.Models;
 using NewLife.Log;
+using NewLife.Serialization;
 using Polly;
 using Polly.Retry;
 
@@ -268,8 +270,11 @@ namespace IsMatch.Cnarticlesubscribe
                     SendMail();
                     _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
                     NewLife.Log.XTrace.Log.Info($"记录时间已更新:{_recordTime:yyyy-MM-dd HH:mm:ss}");
-                }
 
+                    // ImportDb
+                    ImportDb();
+                }
+                ImportDb();
             }
             catch (Exception)
             {
@@ -400,6 +405,12 @@ namespace IsMatch.Cnarticlesubscribe
             // 清空昨天的缓存
             PreviousArticles.RemoveAll(p => true);
             //NewLife.Log.XTrace.Log.Info($"{blogFileName},文件已发送。");
+        }
+
+        static void ImportDb()
+        {
+            var postString = PreviousArticles.ToJson();
+            var result = HttpHelper.GetString(new Uri("http://localhost:51086/ArticleManager/ArticleList/Import"), false, postString);
         }
     }
 }
