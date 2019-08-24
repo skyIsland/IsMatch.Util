@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IsMatch.NfxTest.LeetCode;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -60,7 +61,9 @@ namespace IsMatch.NfxTest
 
             //Test10();
 
-            Console.WriteLine(ExecuteFormula("1+1*7")); 
+            //Console.WriteLine(ExecuteFormula("1+1*7")); 
+
+            ArraySubject.TestControl();
 
             Console.ReadKey();
         }       

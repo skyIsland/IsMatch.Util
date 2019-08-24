@@ -68,6 +68,7 @@
   <ItemGroup>
     <Compile Include="AssemblyTest.cs" />
     <Compile Include="GetHashCodeTest.cs" />
+    <Compile Include="LeetCode\ArraySubject.cs" />
     <Compile Include="MyClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -77,5 +78,6 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
