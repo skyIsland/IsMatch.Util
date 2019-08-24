@@ -274,7 +274,7 @@ namespace IsMatch.Cnarticlesubscribe
                     // ImportDb
                     ImportDb();
                 }
-                ImportDb();
+                //ImportDb();
             }
             catch (Exception)
             {
