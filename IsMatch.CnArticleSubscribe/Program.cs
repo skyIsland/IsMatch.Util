@@ -133,7 +133,7 @@ namespace IsMatch.Cnarticlesubscribe
             }
             catch (Exception e)
             {
-                NewLife.Log.XTrace.Log.Error($"Excuted Failed,Message: ({e.Message})");
+                NewLife.Log.XTrace.Log.Error($"Excuted Failed,Message: ({e.Message},{e.StackTrace})");
 
             }
         }
@@ -265,14 +265,14 @@ namespace IsMatch.Cnarticlesubscribe
                 // 生成Txt和发送邮件
                 if ((DateTime.Now - _recordTime).TotalHours >= 24)
                 {
+                    // ImportDb
+                    ImportDb();
+
                     BuildArticleTxt(PreviousArticles.OrderByDescending(p => p.CommentCount).ThenByDescending(p => p.ViewCount).ToList());
                     NewLife.Log.XTrace.Log.Info($"准备发送邮件，记录时间:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                     SendMail();
                     _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
                     NewLife.Log.XTrace.Log.Info($"记录时间已更新:{_recordTime:yyyy-MM-dd HH:mm:ss}");
-
-                    // ImportDb
-                    ImportDb();
                 }
                 //ImportDb();
             }
@@ -409,8 +409,15 @@ namespace IsMatch.Cnarticlesubscribe
 
         static void ImportDb()
         {
-            var postString = PreviousArticles.ToJson();
-            var result = HttpHelper.GetString(new Uri("http://localhost:51086/ArticleManager/ArticleList/Import"), false, postString);
+            var page = (int)Math.Ceiling((double)PreviousArticles.Count / 50);
+            var result = string.Empty;
+            for (int i = 0; i < page; i++)
+            {
+                var postString = PreviousArticles.Skip(i * 50).Take(50).ToJson();
+                result += HttpHelper.GetString(new Uri("http://139.199.207.128:7777/ArticleManager/ArticleList/Import"), false, postString);
+
+            }
+            NewLife.Log.XTrace.Log.Info($"{PreviousArticles.Count}篇文章已导入。" + result);
         }
     }
 }
