@@ -63,16 +63,22 @@ namespace IsMatch.NfxTest
 
             //Console.WriteLine(ExecuteFormula("1+1*7"));             
 
-            Console.WriteLine(GetTimePoint(new List<DateTime>(){
-                new DateTime(2019,8,1,16,0,0),
-                new DateTime(2019,8,1,10,0,0),
-                new DateTime(2019,8,1,11,0,0),
-                new DateTime(2019,8,1,12,0,0),
-                new DateTime(2019,8,1,14,0,0),
-                new DateTime(2019,8,1,15,0,0)
-            }));
+            //Console.WriteLine(GetTimePoint(new List<DateTime>(){
+            //    new DateTime(2019,8,1,16,0,0),
+            //    new DateTime(2019,8,1,10,0,0),
+            //    new DateTime(2019,8,1,11,0,0),
+            //    new DateTime(2019,8,1,12,0,0),
+            //    new DateTime(2019,8,1,14,0,0),
+            //    new DateTime(2019,8,1,15,0,0)
+            //}));
 
-            ArraySubject.TestControl();
+            //ArraySubject.TestControl();
+
+            var list = new List<int> { 5, 22, 1, 44, 11, 7, 9 };
+
+            Sorting.SortingMethod.BubbleSort(list);
+
+            Sorting.SortingMethod.SelectionSort(list);
 
             Console.ReadKey();
         }       
