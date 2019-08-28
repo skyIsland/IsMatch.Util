@@ -80,6 +80,11 @@ namespace IsMatch.NfxTest
 
             Sorting.SortingMethod.SelectionSort(list);
 
+            Sorting.SortingMethod.InsertionSort(list);
+
+            Console.WriteLine(string.Join(",", Sorting.SortingMethod.MergeSort(list)));
+
+
             Console.ReadKey();
         }       
 
