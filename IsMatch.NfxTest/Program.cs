@@ -35,12 +35,18 @@ namespace IsMatch.NfxTest
             int j = obj.Item2;
             MyClass1 k = obj.Item3;
         }
+
+        public override string ToString()
+        {
+            return Guid + "," + Title;
+        }
     }
 
     class Program
     {
         static void Main(string[] args)
         {
+            TestRef();
             //Test1();
 
             //Test2();
@@ -82,11 +88,24 @@ namespace IsMatch.NfxTest
 
             Sorting.SortingMethod.InsertionSort(list);
 
-            Console.WriteLine(string.Join(",", Sorting.SortingMethod.MergeSort(list)));
+            //Console.WriteLine(string.Join(",", Sorting.SortingMethod.MergeSort(list)));
 
 
             Console.ReadKey();
         }       
+
+        private static void TestRef()
+        {
+            var list = new List<MyClass2> {
+                new MyClass2 { Guid = Guid.NewGuid().ToString(), Title = "guid1" },
+                new MyClass2 { Guid = Guid.NewGuid().ToString(), Title = "guid2" }
+            };
+
+            var obj = list.FirstOrDefault(p => p.Title == "guid1");
+            obj.Title = "guid3";
+
+            Console.WriteLine(string.Join(",", list.Select(p => p.ToString())));
+        }
 
         private static void Test1()
         {
