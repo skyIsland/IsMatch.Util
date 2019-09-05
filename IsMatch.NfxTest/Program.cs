@@ -80,19 +80,29 @@ namespace IsMatch.NfxTest
 
             //ArraySubject.TestControl();
 
-            var list = new List<int> { 5, 22, 1, 44, 11, 7, 9 };
+            //var list = new List<int> { 5, 22, 1, 44, 11, 7, 9 };
 
-            Sorting.SortingMethod.BubbleSort(list);
+            //Sorting.SortingMethod.BubbleSort(list);
 
-            Sorting.SortingMethod.SelectionSort(list);
+            //Sorting.SortingMethod.SelectionSort(list);
 
-            Sorting.SortingMethod.InsertionSort(list);
+            //Sorting.SortingMethod.InsertionSort(list);
 
             //Console.WriteLine(string.Join(",", Sorting.SortingMethod.MergeSort(list)));
 
+            TestWhileSetValue();
 
             Console.ReadKey();
         }       
+
+        private static void TestWhileSetValue()
+        {
+            int i = 0;
+            while ((i = 10) < 30)
+            {
+                Console.WriteLine(i);
+            }
+        }
 
         private static void TestRef()
         {
