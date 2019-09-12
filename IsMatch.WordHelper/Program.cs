@@ -70,10 +70,14 @@ namespace IsMatch.WordHelper
 
                 #region
                 //μg/m³
-                //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
-                //wordApp.Selection.Find.Text = "μg/m³";
-                //wordApp.Selection.Find.MatchCase = true;//是否区分大小写
-                //wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                wordApp.Selection.Find.Text = "μg/m³";
+                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                wordApp.Selection.Find.Font.NameOther = "Times New Roman";
+
+                wordApp.Selection.Find.Execute(ref _missVal, ref _missVal, ref _missVal, ref _missVal,
+                        ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _repAll,
+                        ref _missVal, ref _missVal, ref _missVal, ref _missVal);
 
                 //wordApp.Selection.HomeKey(ref _unite, ref _missVal);
                 //wordApp.Selection.Find.Text = "μ";
