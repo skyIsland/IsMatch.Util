@@ -46,7 +46,8 @@ namespace IsMatch.NfxTest
     {
         static void Main(string[] args)
         {
-            TestRef();
+            //Console.WriteLine(string.Join(",", YieldTest()));
+            //TestRef();
             //Test1();
 
             //Test2();
@@ -475,40 +476,61 @@ namespace IsMatch.NfxTest
             {
                 DateTime[] dic = null;
 
-                // 比较当前时间和下一个时间是否相差1个小时
-                var currTime = list.First();
-                int i = 0;
-                foreach (var item in list)
+                if(list.Count == 1)
                 {
-                    if (i == 0)
+                    dic = new DateTime[] { list.First(), list.First() };
+                }
+                else
+                {
+                    // 比较当前时间和下一个时间是否相差1个小时
+                    var currTime = list.First();
+                    int i = 0;
+                    foreach (var item in list)
                     {
-                        dic = new DateTime[2];
-                        dic[0] = currTime;
-                    }
-                    else if (item == list.Last())
-                    {
-                        dic[1] = item;
-                        result.Add(dic);
-                    }
-                    else
-                    {
-                        if(item != currTime)
+                        if (i == 0)
                         {
-                            dic[1] = currTime.AddHours(-1);
-                            result.Add(dic);
-
-                            // 重置条件
-                            currTime = list[i].AddHours(-1);
-                            i = -1;
+                            dic = new DateTime[2];
+                            dic[0] = currTime;
                         }
+                        else if (item == list.Last())
+                        {
+                            dic[1] = item;
+                            result.Add(dic);
+                        }
+                        else
+                        {
+                            if (item != currTime)
+                            {
+                                dic[1] = currTime.AddHours(-1);
+                                result.Add(dic);
+
+                                // 重置条件
+                                currTime = list[i].AddHours(-1);
+                                i = -1;
+                            }
+                        }
+                        currTime = currTime.AddHours(1);
+                        i++;
                     }
-                    currTime = currTime.AddHours(1);
-                    i++;
                 }
             }
             return string.Join("\r\n", result.Select(p => string.Join("-", p.ToList().Select( o => o.ToString("yyyy年MM月dd日 HH:mm:ss")))));
         }
 
+        #region Yield Test
+
+        //public static IEnumerable<int> YieldTest()
+        //{
+        //    var counter = 0;
+        //    int result = 1;
+
+        //    while (++counter < 10)
+        //    {
+        //        result *= 2;
+        //        yield return result;
+        //    }
+        //}
+        #endregion
     }
 
     public static class TagBuilderExtension
