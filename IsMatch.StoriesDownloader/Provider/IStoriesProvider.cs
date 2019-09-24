@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IsMatch.StoriesDownloader.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,8 +18,6 @@ namespace IsMatch.StoriesDownloader.Provider
         /// <param name="pageNo"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        List<string> SearchStories(string keyword, int pageNo, int pageSize);
-
-
+        List<Story> SearchStories(string keyword, int pageNo, int pageSize);
     }
 }
