@@ -46,7 +46,7 @@ namespace IsMatch.Spider.Common
         /// <param name="parame">parame</param>
         /// <param name="proxy">代理服务器</param>
         /// <returns>网页源代码</returns>
-        public static string WebRequestGetHtml(Uri uri, bool isGet = true, string parame = null, string proxy = null)
+        public static string WebRequestGetHtml(Uri uri, bool isGet = true, string parame = null, string proxy = null, Encoding encoding = null)
         {
             var pageSource = string.Empty;
             try
@@ -134,7 +134,8 @@ namespace IsMatch.Spider.Common
                     {
                         using (Stream stream = response.GetResponseStream())//原始
                         {
-                            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                            if (encoding == null) encoding = Encoding.UTF8;
+                            using (StreamReader reader = new StreamReader(stream, encoding))
                             {
                                 pageSource = reader.ReadToEnd();
                             }

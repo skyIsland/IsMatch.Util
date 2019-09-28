@@ -1,7 +1,4 @@
 ﻿{
-  "TxtIndexUrl": "https://www.biquge.info/32_32870/",
-  "UrlStart": "https://www.biquge.info/32_32870/",
-  "ListRule": "#list>dl>dd>a",
-  "DetailRule": "#content",
-  "CharCode": "UTF8"
+  "RuleId": 2,
+  "StoryId": "63_63106"
 }

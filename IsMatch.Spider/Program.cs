@@ -1,6 +1,9 @@
 ﻿using IsMatch.Spider.Txt;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Text;
 
 namespace IsMatch.Spider
 {
@@ -32,13 +35,29 @@ namespace IsMatch.Spider
 
         private static void BiQuGeSpider()
         {
+            //File.WriteAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Txt", "Rule.json"), NewLife.Serialization.JsonHelper.ToJson(new List<Rule> { new Rule(), new Rule() }));
+            //return;
             // 读取配置
-
             var setting =
                NewLife.Serialization.JsonHelper.ToJsonEntity<Setting>(
                    File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Txt", "Setting.json")));
 
-            new BiQuGe(setting).Start();
+            //var listRule = NewLife.Serialization.JsonHelper.ToJsonEntity<List<Rule>>(
+            //       File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Txt", "Rule.json")));
+
+            var listRule = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Rule>>(
+                   File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Txt", "Rule.json")));
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            if (setting != null && listRule != null && listRule.Any())
+            {
+                var rule = listRule.FirstOrDefault(p => p.Id == setting.RuleId);
+                rule.TxtIndexUrl = string.Format(rule.TxtIndexUrl, setting.StoryId);
+                rule.UrlStart = string.Format(rule.UrlStart, setting.StoryId);
+
+                BiQuGe.Start(rule);
+            }
         }
     }
 

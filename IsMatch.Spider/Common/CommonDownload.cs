@@ -14,7 +14,7 @@ namespace IsMatch.Spider.Common
 {
     public class CommonDownload
     {
-        public Setting _Setting;
+        public Rule _Rule;
 
         public Dictionary<string, string> _ListUrl = new Dictionary<string, string>();
 
@@ -30,7 +30,9 @@ namespace IsMatch.Spider.Common
         /// <returns></returns>
         public virtual IHtmlDocument GetHtmlDocumet(string address, Encoding encoding = null)
         {
-            var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address));
+            if(!string.IsNullOrEmpty(this._Rule.CharCode)) encoding = Encoding.GetEncoding(this._Rule.CharCode);
+
+            var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address), encoding: encoding);
             return new HtmlParser().ParseDocument(resultStr);
         }
 
@@ -41,7 +43,7 @@ namespace IsMatch.Spider.Common
         /// <param name="htmlCollection"></param>
         public virtual void GetList(string selectors, Action<IHtmlCollection<IElement>> htmlCollection, Action<string> WriteLog = null)
         {
-            var document = GetHtmlDocumet(_Setting.TxtIndexUrl);
+            var document = GetHtmlDocumet(_Rule.TxtIndexUrl);
             var ddList = document.QuerySelectorAll(selectors);
 
             htmlCollection?.Invoke(ddList);
@@ -75,7 +77,7 @@ namespace IsMatch.Spider.Common
                     {
                         foreach (var detailUrl in data)
                         {
-                            var document = GetHtmlDocumet(_Setting.UrlStart + detailUrl.Value);
+                            var document = GetHtmlDocumet(_Rule.UrlStart + detailUrl.Value);
                             var detailHtml = document.QuerySelector(selectors);
 
                             if (detailHtml != null)

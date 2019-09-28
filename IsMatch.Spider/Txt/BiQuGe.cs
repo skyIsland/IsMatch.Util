@@ -10,21 +10,21 @@ namespace IsMatch.Spider.Txt
     {
         #region 构造
 
-        public BiQuGe(Setting setting)
+        public BiQuGe(Rule rule)
         {
-            if(setting == null)
+            if(rule == null)
             {
-                setting = new Setting();
+                rule = new Rule();
             }
 
-            base._Setting = setting;
+            base._Rule = rule;
         }
 
         #endregion
 
         #region 输出信息
 
-        private Action<string> OutPutMsg = msg => NewLife.Log.XTrace.WriteLine(msg);
+        private static Action<string> OutPutMsg = msg => NewLife.Log.XTrace.WriteLine(msg);
 
         #endregion
 
@@ -92,8 +92,10 @@ namespace IsMatch.Spider.Txt
 
         #region Main Function
 
-        public void Start()
+        public static void Start(Rule rule)
         {
+            var current = new BiQuGe(rule);
+
             NewLife.Log.XTrace.UseConsole();
 
             //base._UrlStart = "https://www.ibiquge.net";
@@ -103,30 +105,30 @@ namespace IsMatch.Spider.Txt
             //base._Url = "https://www.biquge.info/32_32870/";
 
             // 获取列表
-            base.GetList(base._Setting.ListRule, (htmlCollect) =>
+            current.GetList(current._Rule.ListRule, (htmlCollect) =>
             {
                 foreach (var dd in htmlCollect)
                 {
-                    if (!_ListUrl.ContainsKey(dd.TextContent))
+                    if (!current._ListUrl.ContainsKey(dd.TextContent))
                     {
-                        base._ListUrl.Add(dd.TextContent, dd.GetAttribute("href"));
+                        current._ListUrl.Add(dd.TextContent, dd.GetAttribute("href"));
                     }
                 }
             });
 
             // 获取详情
-            base.GetDetail(base._Setting.DetailRule, (elemt, title) =>
+            current.GetDetail(current._Rule.DetailRule, (elemt, title) =>
             {
-                if (!base._DetailContext.ContainsKey(title))
+                if (!current._DetailContext.ContainsKey(title))
                 {
-                    base._DetailContext.Add(title, elemt?.TextContent);
+                    current._DetailContext.Add(title, elemt?.TextContent);
                 }
             },
              OutPutMsg
             );
 
             // 输出文本文件
-            base.OutPutTxt(OutPutMsg);
+            current.OutPutTxt(OutPutMsg);
         }
 
 

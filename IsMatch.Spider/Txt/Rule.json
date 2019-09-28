@@ -1,0 +1,18 @@
+﻿[
+  {
+    "Id": 1,
+    "TxtIndexUrl": "https://www.biquge.info/{0}",
+    "UrlStart": "https://www.biquge.info/{0}/",
+    "ListRule": "#list>dl>dd>a",
+    "DetailRule": "#content",
+    "CharCode": "UTF8"
+  },
+  {
+    "Id": 2,
+    "TxtIndexUrl": "http://www.biqige.com/{0}/",
+    "UrlStart": "http://www.biqige.com",
+    "ListRule": "#list>dl>dd>a",
+    "DetailRule": "#content",
+    "CharCode": "gbk"
+  }
+]
