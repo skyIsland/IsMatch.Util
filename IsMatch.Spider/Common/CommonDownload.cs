@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +33,16 @@ namespace IsMatch.Spider.Common
         {
             if(!string.IsNullOrEmpty(this._Rule.CharCode)) encoding = Encoding.GetEncoding(this._Rule.CharCode);
 
-            var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address), encoding: encoding);
+            //var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address), encoding: encoding);
+            var resultStr = string.Empty;
+            using (var wc= new WebClient())
+            {
+                if (encoding != null)
+                {
+                    wc.Encoding = encoding;
+                }
+                resultStr = wc.DownloadString(address);
+            }
             return new HtmlParser().ParseDocument(resultStr);
         }
 
