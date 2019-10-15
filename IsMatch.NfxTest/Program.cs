@@ -91,7 +91,9 @@ namespace IsMatch.NfxTest
 
             //Console.WriteLine(string.Join(",", Sorting.SortingMethod.MergeSort(list)));
 
-            TestWhileSetValue();
+            //TestWhileSetValue();
+
+            ExceptionTest();
 
             Console.ReadKey();
         }       
@@ -517,6 +519,18 @@ namespace IsMatch.NfxTest
             return string.Join("\r\n", result.Select(p => string.Join("-", p.ToList().Select( o => o.ToString("yyyy年MM月dd日 HH:mm:ss")))));
         }
 
+        public static void ExceptionTest()
+        {
+            try
+            {
+                throw new DivideByZeroException();
+            }
+            catch (Exception ex)
+            {
+                // 假如是英文...
+                Console.WriteLine(ex.Message + "，堆栈信息:" + ex.StackTrace.Substring(ex.StackTrace.IndexOf("行号"), ex.StackTrace.Length - ex.StackTrace.IndexOf("行号")));
+            }
+        }
         #region Yield Test
 
         //public static IEnumerable<int> YieldTest()
