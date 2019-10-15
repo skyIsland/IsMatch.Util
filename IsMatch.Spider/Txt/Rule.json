@@ -5,7 +5,7 @@
     "UrlStart": "https://www.biquge.info/{0}/",
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
-    "CharCode": "UTF8"
+    "CharCode": ""
   },
   {
     "Id": 2,
