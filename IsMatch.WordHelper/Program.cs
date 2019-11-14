@@ -27,12 +27,14 @@ namespace IsMatch.WordHelper
             // 图
             try
             {
-                string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Template", "Template.docx");
+                string sourcePath = Path.Combine(Directory.GetCurrentDirectory(), "Template", "Template1.docx");
                 string destPath = Path.Combine(Directory.GetCurrentDirectory(), "Template",
                 Guid.NewGuid().ToString() + ".docx");
                 File.Copy(sourcePath, destPath);
 
-                Test1(destPath);
+                //Test1(destPath);
+
+                AsposeTest(destPath);
 
                 Console.WriteLine("OK...");
             }
@@ -42,6 +44,9 @@ namespace IsMatch.WordHelper
             }            
             Console.ReadKey();
         }
+
+
+        #region Test1
 
         private static void Test1(string tagWordPath)
         {
@@ -53,7 +58,7 @@ namespace IsMatch.WordHelper
 
             try
             {
-               
+
                 // 替换文字
                 var dic = new Dictionary<string, string>()
                 {
@@ -150,7 +155,7 @@ namespace IsMatch.WordHelper
                 wordDoc.Close();
                 wordApp.Quit();
             }
-           
+
         }
 
         /// <summary>
@@ -162,17 +167,17 @@ namespace IsMatch.WordHelper
         {
             foreach (var data in dataDic)
             {
-                    //光标定位到文档开头
-                    wordApp.Selection.HomeKey(ref _unite, ref _missVal);
-                    wordApp.Selection.Find.ClearFormatting();
-                    wordApp.Selection.Find.Text = data.Key.Trim();
-                    wordApp.Selection.Find.MatchCase = true;//是否区分大小写
-                    wordApp.Selection.Find.Replacement.ClearFormatting();
-                    wordApp.Selection.Find.Replacement.Text = data.Value;
-                    //执行全部替换
-                    wordApp.Selection.Find.Execute(ref _missVal, ref _missVal, ref _missVal, ref _missVal,
-                        ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _repAll,
-                        ref _missVal, ref _missVal, ref _missVal, ref _missVal);
+                //光标定位到文档开头
+                wordApp.Selection.HomeKey(ref _unite, ref _missVal);
+                wordApp.Selection.Find.ClearFormatting();
+                wordApp.Selection.Find.Text = data.Key.Trim();
+                wordApp.Selection.Find.MatchCase = true;//是否区分大小写
+                wordApp.Selection.Find.Replacement.ClearFormatting();
+                wordApp.Selection.Find.Replacement.Text = data.Value;
+                //执行全部替换
+                wordApp.Selection.Find.Execute(ref _missVal, ref _missVal, ref _missVal, ref _missVal,
+                    ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _missVal, ref _repAll,
+                    ref _missVal, ref _missVal, ref _missVal, ref _missVal);
             }
         }
 
@@ -192,5 +197,33 @@ namespace IsMatch.WordHelper
 
             return list;
         }
+
+        #endregion
+
+        #region Aspose.Word
+
+        public static void AsposeTest(string filePath)
+        {
+            var asTemplate = new List<ASTemplate> { new ASTemplate { Key = "#ReplaceTxt#", Value = "我是替换之后的文本。" } };
+            var tabData = new List<TempClass>()
+            {
+                new TempClass
+                {
+                    Province = "山西省",
+                    City ="太原市",
+                    DustValue = 5.7M
+                },
+                new TempClass
+                {
+                    Province = "河北省",
+                    City ="石家庄市",
+                    DustValue = 5.71M
+                }
+            };
+
+            AsposeWordsHelper.FillWordData(filePath, "", asTemplate, tabData, ReplaceTypeEnum.placeholder);
+        }
+
+        #endregion
     }
 }
