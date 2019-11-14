@@ -19,7 +19,7 @@ namespace IsMatch.Spider.DouBan
         /// <summary>
         /// 保存路径
         /// </summary>
-        private readonly string FilesSaveSrc = "E:\\Study\\CrawlerResult\\DouBan1";
+        private readonly string FilesSaveSrc = "E:\\Study\\CrawlerResult\\DouBan2";
         /// <summary>
         /// 分类ID数据 2-胸 3-腿 4-脸 5-杂 6-臀 7-袜子
         /// </summary>
@@ -27,7 +27,7 @@ namespace IsMatch.Spider.DouBan
         /// <summary>
         /// 豆瓣地址
         /// </summary>
-        private string DouBanUrl = "https://www.dbmeinv.com/index.htm?cid={0}&pager_offset={1}";
+        private string DouBanUrl = "https://www.buxiuse.com/?cid={0}&page={1}";
         /// <summary>
         /// 已下载图片链接
         /// </summary>
