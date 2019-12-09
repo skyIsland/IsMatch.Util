@@ -72,6 +72,7 @@
     <Compile Include="MyClass.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RPN.cs" />
     <Compile Include="Sorting\SortingMethod.cs" />
     <Compile Include="StaticClass.cs" />
   </ItemGroup>
