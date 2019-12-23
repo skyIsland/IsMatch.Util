@@ -39,12 +39,16 @@ namespace IsMatch.Spider.Txt
 
         public static string ReplaceSpecial(string str)
         {
-            str = str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
-                    .Replace("https://www.ibiquge.net/最快更新！无广告！", "")
-                    .Replace("章节错误,点此报送(免注册),", "")
-                    .Replace("报送后维护人员会在两分钟内校正章节内容,请耐心等待。", "");
+            if (!string.IsNullOrEmpty(str))
+            {
+                str = str.Replace("天才一秒记住本站地址：[笔趣阁]", "")
+                  .Replace("https://www.ibiquge.net/最快更新！无广告！", "")
+                  .Replace("章节错误,点此报送(免注册),", "")
+                  .Replace("报送后维护人员会在两分钟内校正章节内容,请耐心等待。", "");
 
-            str = str.Replace("笔＆趣＆阁ｗww.ｂiｑuｇe.ｉnｆo", "");
+                str = str.Replace("笔＆趣＆阁ｗww.ｂiｑuｇe.ｉnｆo", "");
+
+            }
 
             return str;
         }
