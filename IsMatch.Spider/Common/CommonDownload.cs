@@ -33,16 +33,16 @@ namespace IsMatch.Spider.Common
         {
             if(!string.IsNullOrEmpty(this._Rule.CharCode)) encoding = Encoding.GetEncoding(this._Rule.CharCode);
 
-            //var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address), encoding: encoding);
-            var resultStr = string.Empty;
-            using (var wc= new WebClient())
-            {
-                if (encoding != null)
-                {
-                    wc.Encoding = encoding;
-                }
-                resultStr = wc.DownloadString(address);
-            }
+            var resultStr = HttpHelper.WebRequestGetHtml(new Uri(address), encoding: encoding);
+            //resultStr = string.Empty;
+            //using (var wc= new WebClient())
+            //{
+            //    if (encoding != null)
+            //    {
+            //        wc.Encoding = encoding;
+            //    }
+            //    resultStr = wc.DownloadString(address);
+            //}
             return new HtmlParser().ParseDocument(resultStr);
         }
 

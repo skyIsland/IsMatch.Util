@@ -1,8 +1,8 @@
 ﻿[
   {
     "Id": 1,
-    "TxtIndexUrl": "https://www.biquge.info/{0}",
-    "UrlStart": "https://www.biquge.info/{0}/",
+    "TxtIndexUrl": "http://www.biquge.info/{0}/",
+    "UrlStart": "http://www.biquge.info/{0}/",
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
     "CharCode": ""
