@@ -187,9 +187,10 @@ namespace IsMatch.Spider.Common
 
             if (str.Contains("、"))
             {
-                if (str.Split("、")[0].ToInt(-1) > -1)
+                var number = str.Split("、")[0].ToInt(-1);
+                if (number > -1)
                 {
-                    str = "第" + str + "章";
+                    str = "第" + number + "章" + str;
                 }
             }
 
