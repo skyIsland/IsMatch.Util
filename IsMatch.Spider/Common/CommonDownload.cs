@@ -180,6 +180,7 @@ namespace IsMatch.Spider.Common
 
         public string FriendTitle(string str)
         {
+            return str;
             if (string.IsNullOrWhiteSpace(str))
             {
                 return str;
@@ -190,7 +191,7 @@ namespace IsMatch.Spider.Common
                 var number = str.Split("、")[0].ToInt(-1);
                 if (number > -1)
                 {
-                    str = "第" + number + "章" + str;
+                    str = "第" + number + "章" + str.Replace(number.ToString(), "");
                 }
             }
 
