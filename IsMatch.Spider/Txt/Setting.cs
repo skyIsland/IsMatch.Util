@@ -23,6 +23,8 @@ namespace IsMatch.Spider.Txt
 
         public string DetailRule { get; set; } = "#content";
 
-        public string CharCode { get; set; } = "UTF8";
+        public string CharCode { get; set; }
+
+        public bool IsMutilThread { get; set; }
     }
 }

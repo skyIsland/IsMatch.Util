@@ -77,62 +77,70 @@ namespace IsMatch.Spider.Common
 
 
                 #region 开线程下载 10个链接开一个线程
-                //int maxCountThread = 1;
-                //var threadCount = (int)Math.Ceiling((double)_ListUrl.Count / maxCountThread);
-                //Task[] tasks = new Task[threadCount];
-                //for (int i = 0; i < threadCount; i++)
-                //{
-                //    var data = _ListUrl.ToList().Skip(i * maxCountThread).Take(maxCountThread).ToList();
-                //    tasks[i] = Task.Factory.StartNew(() =>
-                //    {
-                //        foreach (var detailUrl in data)
-                //        {
-                //            var document = GetHtmlDocumet(_Rule.UrlStart + detailUrl.Value);
-                //            var detailHtml = document.QuerySelector(selectors);
-
-                //            if (detailHtml != null)
-                //            {
-                //                htmlCollection?.Invoke(detailHtml, detailUrl.Key);
-
-                //                WriteLog?.Invoke($"{detailUrl.Key}获取成功！");                               
-                //            }
-                //            else
-                //            {
-                //                WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
-                //            }
-                //        }
-
-                //        //foreach (var list in data)
-                //        //{
-                //        //    // 单章详情页内容
-                //        //    var detailHtml = GetHtmlDocumet(list.Value);
-
-                //        //    var detailStr =
-                //        //}
-                //    });
-                //}
-                //Task.WaitAll(tasks/*, TimeSpan.FromSeconds(2000)*/);
-                #endregion
-                foreach (var detailUrl in _ListUrl)
+                if (_Rule.IsMutilThread)
                 {
-                    var document = GetHtmlDocumet(_Rule.UrlStart + detailUrl.Value);
-                    var detailHtml = document.QuerySelector(selectors);
-
-                    htmlCollection?.Invoke(detailHtml, detailUrl.Key);
-
-                    if (detailHtml != null)
+                    int maxCountThread = 1;
+                    var threadCount = (int)Math.Ceiling((double)_ListUrl.Count / maxCountThread);
+                    Task[] tasks = new Task[threadCount];
+                    for (int i = 0; i < threadCount; i++)
                     {
+                        var data = _ListUrl.ToList().Skip(i * maxCountThread).Take(maxCountThread).ToList();
+                        tasks[i] = Task.Factory.StartNew(() =>
+                        {
+                            foreach (var detailUrl in data)
+                            {
+                                var document = GetHtmlDocumet(_Rule.UrlStart + detailUrl.Value);
+                                var detailHtml = document.QuerySelector(selectors);
+
+                                if (detailHtml != null)
+                                {
+                                    htmlCollection?.Invoke(detailHtml, detailUrl.Key);
+
+                                    WriteLog?.Invoke($"{detailUrl.Key}获取成功！");
+                                }
+                                else
+                                {
+                                    WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
+                                }
+                            }
+
+                            //foreach (var list in data)
+                            //{
+                            //    // 单章详情页内容
+                            //    var detailHtml = GetHtmlDocumet(list.Value);
+
+                            //    var detailStr =
+                            //}
+                        });
+                    }
+                    Task.WaitAll(tasks/*, TimeSpan.FromSeconds(2000)*/);
+                }
+                else
+                {
+                    foreach (var detailUrl in _ListUrl)
+                    {
+                        var document = GetHtmlDocumet(_Rule.UrlStart + detailUrl.Value);
+                        var detailHtml = document.QuerySelector(selectors);
+
                         htmlCollection?.Invoke(detailHtml, detailUrl.Key);
 
-                        WriteLog?.Invoke($"{detailUrl.Key}获取成功！");
-                    }
-                    else
-                    {
-                        WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
+                        if (detailHtml != null)
+                        {
+                            htmlCollection?.Invoke(detailHtml, detailUrl.Key);
+
+                            WriteLog?.Invoke($"{detailUrl.Key}获取成功！");
+                        }
+                        else
+                        {
+                            WriteLog?.Invoke($"{detailUrl.Key}获取失败！");
+                        }
+
+                        Thread.Sleep(1500);
                     }
 
-                    Thread.Sleep(1500);
                 }
+
+                #endregion
             }
             else
             {

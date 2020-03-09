@@ -93,10 +93,20 @@ namespace IsMatch.NfxTest
 
             //TestWhileSetValue();
 
-            ExceptionTest();
+            //ExceptionTest();
+
+            Console.WriteLine(StampToDateTime("1569290406").ToString("yyyy-MM-dd HH:mm:ss"));
 
             Console.ReadKey();
-        }       
+        }
+
+        public static DateTime StampToDateTime(string timeStamp)
+        {
+            DateTime dateTimeStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dateTimeStart.Add(toNow);
+        }
 
         private static void TestWhileSetValue()
         {
@@ -531,6 +541,7 @@ namespace IsMatch.NfxTest
                 Console.WriteLine(ex.Message + "，堆栈信息:" + ex.StackTrace.Substring(ex.StackTrace.IndexOf("行号"), ex.StackTrace.Length - ex.StackTrace.IndexOf("行号")));
             }
         }
+        
         #region Yield Test
 
         //public static IEnumerable<int> YieldTest()

@@ -5,7 +5,8 @@
     "UrlStart": "http://www.biquge.info/{0}/",
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
-    "CharCode": ""
+    "CharCode": "",
+    "IsMutilThread": true
   },
   {
     "Id": 2,
@@ -13,6 +14,15 @@
     "UrlStart": "http://www.biqige.com",
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
-    "CharCode": "gbk"
+    "CharCode": "gbk",
+    "IsMutilThread": true
+  },
+  {
+    "Id": 3,
+    "TxtIndexUrl": "http://www.bookbao.tw/{0}/",
+    "UrlStart": "http://www.bookbao.tw",
+    "ListRule": "#list>dl>dd>a",
+    "DetailRule": "#content",
+    "IsMutilThread": true
   }
 ]
