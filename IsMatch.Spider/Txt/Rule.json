@@ -20,7 +20,7 @@
   {
     "Id": 3,
     "TxtIndexUrl": "http://www.bookbao.tw/{0}/",
-    "UrlStart": "http://www.bookbao.tw",
+    "UrlStart": "http://www.bookbao.tw/{0}/",
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
     "IsMutilThread": true
