@@ -114,7 +114,8 @@ namespace IsMatch.Spider.Common
                     {
                         using (GZipStream stream = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
                         {
-                            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                            if (encoding == null) encoding = Encoding.UTF8;
+                            using (StreamReader reader = new StreamReader(stream, encoding))
                             {
                                 pageSource = reader.ReadToEnd();
                             }
@@ -124,7 +125,8 @@ namespace IsMatch.Spider.Common
                     {
                         using (DeflateStream stream = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress))
                         {
-                            using (StreamReader reader = new StreamReader(stream, Encoding.UTF8))
+                            if (encoding == null) encoding = Encoding.UTF8;
+                            using (StreamReader reader = new StreamReader(stream, encoding))
                             {
                                 pageSource = reader.ReadToEnd();
                             }

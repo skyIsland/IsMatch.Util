@@ -24,5 +24,14 @@
     "ListRule": "#list>dl>dd>a",
     "DetailRule": "#content",
     "IsMutilThread": true
+  },
+  {
+    "Id": 4,
+    "TxtIndexUrl": "https://www.biquwu.cc/biquge/{0}/",
+    "UrlStart": "https://www.biquwu.cc",
+    "ListRule": ".listmain>dl>dd>a",
+    "DetailRule": "#content",
+    "IsMutilThread": true,
+    "CharCode": "GBK"
   }
 ]
