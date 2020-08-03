@@ -22,7 +22,7 @@ namespace IsMatch.Cnarticlesubscribe
 {
     class Program
     {
-        private static string BlogDataUrl = "https://www.cnblogs.com";
+        private static string BlogDataUrl = "https://www.cnblogs.com/legacy";
         private static string BlogPageUrl = "https://www.cnblogs.com/mvc/AggSite/PostList.aspx"; 
         private static readonly Stopwatch _sw = new Stopwatch();
         private static List<Article> PreviousArticles;
