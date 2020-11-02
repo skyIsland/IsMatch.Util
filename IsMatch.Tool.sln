@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.StoriesDownloader",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.StoriesDownloaderControl", "IsMatch.StoriesDownloaderControl\IsMatch.StoriesDownloaderControl.csproj", "{4F0F4370-E780-4D0D-B6BF-E9A8312BBE91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IsMatch.DesignPatterns", "IsMatch.DesignPatterns\IsMatch.DesignPatterns.csproj", "{CEBCDEFB-9198-42E3-B8DD-C19BC0D4A7EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{4F0F4370-E780-4D0D-B6BF-E9A8312BBE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F0F4370-E780-4D0D-B6BF-E9A8312BBE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F0F4370-E780-4D0D-B6BF-E9A8312BBE91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEBCDEFB-9198-42E3-B8DD-C19BC0D4A7EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEBCDEFB-9198-42E3-B8DD-C19BC0D4A7EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEBCDEFB-9198-42E3-B8DD-C19BC0D4A7EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEBCDEFB-9198-42E3-B8DD-C19BC0D4A7EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
