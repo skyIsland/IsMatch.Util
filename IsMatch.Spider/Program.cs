@@ -13,9 +13,9 @@ namespace IsMatch.Spider
         {
             Console.WriteLine("Hello World!");
             //JinXuLiangSpider();
-            //DouBanSpider();
+            DouBanSpider();
 
-            BiQuGeSpider();
+            //BiQuGeSpider();
 
             Console.ReadKey();
         }
