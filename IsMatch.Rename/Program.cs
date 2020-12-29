@@ -22,10 +22,10 @@ namespace IsMatch.Rename
             config = Configuration.Build();
 
             srcProjectPath = CmdReader.ReadLine("请输入原项目路径：", input => Directory.Exists(input));
-            srcProjectName = CmdReader.ReadLine("请输入原项目名称：");
+            srcProjectName = CmdReader.ReadLine("请输入原项目名称：").Trim();
 
             newProjectPath = CmdReader.ReadLine("请输入新项目保存位置：", input => Directory.Exists(input));
-            newProjectName = CmdReader.ReadLine("请输入新项目名称：");
+            newProjectName = CmdReader.ReadLine("请输入新项目名称：").Trim();
 
             newProjectPath = Path.Combine(newProjectPath, newProjectName);
 
