@@ -45,6 +45,6 @@ namespace IsMatch.Test
             }
 
             Assert.NotNull(result);
-        }
+        }       
     }
 }
