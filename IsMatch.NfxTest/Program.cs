@@ -1,4 +1,5 @@
 ﻿using IsMatch.NfxTest.LeetCode;
+using IsMatch.Util;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -95,9 +96,48 @@ namespace IsMatch.NfxTest
 
             //ExceptionTest();
 
-            Console.WriteLine(StampToDateTime("1569290406").ToString("yyyy-MM-dd HH:mm:ss"));
+            //Console.WriteLine(StampToDateTime("1569290406").ToString("yyyy-MM-dd HH:mm:ss"));
+
+            GetDateTimeRanges_Test();
 
             Console.ReadKey();
+        }
+
+        public static void GetDateTimeRanges_Test()
+        {
+            // 当月
+            var startTime = new DateTime(2021, 6, 3);
+            var endTime = new DateTime(2021, 6, 5);
+            var result = DateTimeHelper.GetDateTimeRanges(startTime, endTime, 0);
+            FormatWrite(result);            
+
+            // 跨一月
+            startTime = new DateTime(2021, 6, 3);
+            endTime = new DateTime(2021, 7, 5);
+            result = DateTimeHelper.GetDateTimeRanges(startTime, endTime, 0);
+            FormatWrite(result);
+
+            // 跨两月
+            startTime = new DateTime(2021, 6, 3);
+            endTime = new DateTime(2021, 8, 5);
+            result = DateTimeHelper.GetDateTimeRanges(startTime, endTime, 0);
+            FormatWrite(result);
+
+            // 跨五月
+            startTime = new DateTime(2021, 6, 3);
+            endTime = new DateTime(2021, 11, 5);
+            result = DateTimeHelper.GetDateTimeRanges(startTime, endTime, 0);
+            FormatWrite(result);
+        }
+
+        public static void FormatWrite(Dictionary<string, TimeRange> result)
+        {
+            foreach (var item in result)
+            {
+                Console.WriteLine($"{item.Key}:{item.Value.StartTime}-{item.Value.EndTime}");
+            }
+
+            Console.WriteLine("\n");
         }
 
         public static DateTime StampToDateTime(string timeStamp)
