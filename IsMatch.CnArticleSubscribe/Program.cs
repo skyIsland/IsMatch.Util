@@ -409,15 +409,21 @@ namespace IsMatch.Cnarticlesubscribe
 
         static void ImportDb()
         {
-            var page = (int)Math.Ceiling((double)PreviousArticles.Count / 50);
-            var result = string.Empty;
-            for (int i = 0; i < page; i++)
+            try
             {
-                var postString = PreviousArticles.Skip(i * 50).Take(50).ToJson();
-                result += HttpHelper.GetString(new Uri("http://139.199.207.128:7777/ArticleManager/ArticleList/Import"), false, postString);
+                var page = (int)Math.Ceiling((double)PreviousArticles.Count / 50);
+                var result = string.Empty;
+                for (int i = 0; i < page; i++)
+                {
+                    var postString = PreviousArticles.Skip(i * 50).Take(50).ToJson();
+                    result += HttpHelper.GetString(new Uri("http://139.199.207.128:7777/ArticleManager/ArticleList/Import"), false, postString);
 
+                }
             }
-            NewLife.Log.XTrace.Log.Info($"{PreviousArticles.Count}篇文章已导入。" + result);
+            catch (Exception ex)
+            {
+                NewLife.Log.XTrace.Log.Info($"ImportDb发生错误。{ex}");
+            }
         }
     }
 }
