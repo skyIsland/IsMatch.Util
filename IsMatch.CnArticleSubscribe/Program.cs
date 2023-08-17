@@ -85,7 +85,7 @@ namespace IsMatch.Cnarticlesubscribe
             }
 
             // 初始化记录时间
-            _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
+            _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
 
             // 初始化抓取页数
             _maxPageNo = 1;

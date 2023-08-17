@@ -2,7 +2,7 @@
   "profiles": {
     "IsMatch.ScanCodeLine": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\Project\\Xinjiang\\【XC-201801254】新疆乌鲁木齐市空气质量联网平台建设\\源码\\trunk\\业务平台(源于郑州【XC-201801015】)"
+      "commandLineArgs": "D:\\suncereltd\\Cnemc.OpaAnalysis.V5.4\\code\\00latest\\backend\\Suncere.AirOperation.Base\\src"
     }
   }
 }
