@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IsMatch.CnArticleSubscribe.Config;
 using MailKit.Net.Smtp;
+using System;
 
 namespace IsMatch.CnArticleSubscribe.Helper
 {
@@ -17,10 +18,10 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 var smtpClient = new SmtpClient();
 
                 // 设置超时时间
-                smtpClient.Timeout = 10 * 1000;
+                smtpClient.Timeout = 4 * 1000;
 
                 // 连接到远程smtp服务器
-                smtpClient.Connect(config.Host, config.Port, MailKit.Security.SecureSocketOptions.None);
+                smtpClient.Connect(config.Host, config.Port, MailKit.Security.SecureSocketOptions.Auto);
                 smtpClient.Authenticate(config.Address, config.Password);
 
                 // 发送邮件
@@ -29,11 +30,10 @@ namespace IsMatch.CnArticleSubscribe.Helper
                 return true;
 
             }
-            catch
+            catch(Exception ex)
             {
                 throw;
             }
-
         }
 
         /// <summary>
@@ -93,7 +93,6 @@ namespace IsMatch.CnArticleSubscribe.Helper
             mailMessage.Subject = subject;
 
             return SendMail(mailMessage, config);
-
         }
     }
 }

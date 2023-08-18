@@ -44,7 +44,9 @@ namespace IsMatch.Cnarticlesubscribe
 
             Init();
 
-            // start
+            //SendEmailTest();
+
+            //start
             if (args.Length > 0)
             {
                 SendMail(args[0]);
