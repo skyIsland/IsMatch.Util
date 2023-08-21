@@ -273,7 +273,7 @@ namespace IsMatch.Cnarticlesubscribe
                     BuildArticleTxt(PreviousArticles.OrderByDescending(p => p.CommentCount).ThenByDescending(p => p.ViewCount).ToList());
                     NewLife.Log.XTrace.Log.Info($"准备发送邮件，记录时间:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                     SendMail();
-                    _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 20, 0);
+                    _recordTime = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 0, 0);
                     NewLife.Log.XTrace.Log.Info($"记录时间已更新:{_recordTime:yyyy-MM-dd HH:mm:ss}");
                 }
                 //ImportDb();
